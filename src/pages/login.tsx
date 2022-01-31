@@ -33,11 +33,19 @@ const Login: NextPage = () => {
 							border: '4px outset red'
 						}}>
 						<Center>
-							<form action="/api/user/auth" method="post">
-								<Input type="email" name="email" id=""/><br />
-								<Input type="password" name="password" id="" /><br />
+							<form action="/api/user/login" method="post">
+								<Input 
+									type="email" 
+									name="email" 
+									id=""/>
+								<br />
+								<Input 
+									type="password" 
+									name="password" 
+									id="" />
+								<br />
 								<Center>
-									<LoginButton type="submit">Log In</LoginButton>
+									<LoginButton type="submit">Login</LoginButton>
 								</Center>
 							</form>
 						</Center>

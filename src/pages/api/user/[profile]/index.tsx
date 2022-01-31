@@ -5,7 +5,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
 
 	switch (req.method) {
 	case 'GET':
-			
+		res.status(200).json({message: 'test'});
 		break;
 	
 	default:
