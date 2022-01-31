@@ -10,10 +10,11 @@ interface UserInterface {
   email: string,
   password: string,
   born: String,
-  /* profiles?: [{
+  profiles?: [{
+		name?: string
     wish?: [{id: number}],
     watched?: [{id: number}]
-  }] */
+  }]
 }
 
 const User = new mongoose.Schema<
@@ -27,10 +28,11 @@ const User = new mongoose.Schema<
 		email: {type: String, required: true, unique: true , lowercase: true },
 		password: {type: String, required: true},
 		born: {type: String, required: true},
-	/* profiles: [{
-		wish: [{id: {type: Number, required: false}}],
-		watched: [{id: {type: Number, required: false}}]
-	}] */
+		profiles: [{
+			name: {type: String, required: false},
+			wish: [{id: {type: Number, required: false}}],
+			watched: [{id: {type: Number, required: false}}]
+		}]
 	});
 
 User.pre('save', async function(next) {

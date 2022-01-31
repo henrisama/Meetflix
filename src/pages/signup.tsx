@@ -30,10 +30,10 @@ const Label = styled.label`
 
 
 const validate = (event: React.FormEvent<HTMLFormElement>) => {
-	event.preventDefault();
+	//event.preventDefault();
   
-	const firstName = (event.target as any).firstName.value;
-	const lastName = (event.target as any).lastName.value;
+	//const firstName = (event.target as any).firstName.value;
+	//const lastName = (event.target as any).lastName.value;
 	const born = (event.target as any).born.value;
 	const email = (event.target as any).email.value.toLowerCase();
 	const password = (event.target as any).password.value;
@@ -79,7 +79,7 @@ const SignUp: NextPage = () => {
 						}}>
 						<Center>
 							<form 
-								action="/" 
+								action="/api/user/signup" 
 								method="post"
 								onSubmit={validate}>
 								<Center style={{height: '30px'}}>
@@ -129,6 +129,7 @@ const SignUp: NextPage = () => {
 									name="password" 
 									id="" 
 									minLength={8}
+									maxLength={30}
 									required/>
 								<br />
 								<Label>Confirm Password</Label> 

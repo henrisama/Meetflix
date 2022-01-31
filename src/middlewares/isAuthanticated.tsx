@@ -1,4 +1,5 @@
-import type { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
+import type { NextApiRequest, NextApiResponse, NextApiHandler, NextPage } from 'next';
+import jwt from 'jsonwebtoken';
 
 const isAuthaticated = (handler: NextApiHandler) => {
 	return async (req: NextApiRequest, res: NextApiResponse) => {
@@ -19,8 +20,9 @@ const isAuthaticated = (handler: NextApiHandler) => {
 
 		try{
 			//verify token
+			jwt.verify(token, process.env.TOKEN_SECRET as string);
 
-			return handler(req, res);
+			return handler(req,res);
 		}catch(error){
 			return res
 				.status(500)
@@ -31,5 +33,6 @@ const isAuthaticated = (handler: NextApiHandler) => {
 		}
 	};
 };
+
 
 export default isAuthaticated;

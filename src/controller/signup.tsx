@@ -26,7 +26,10 @@ const SignUpController = async (req: NextApiRequest, res: NextApiResponse) => {
 		},
 		email: email,
 		born: born,
-		password: password
+		password: password,
+		profiles: [{
+			name: firstName,
+		}]
 	});
 
 	try {
@@ -38,9 +41,7 @@ const SignUpController = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	return res
 		.status(200)
-		.json({
-			message: 'Successfully created'
-		});
+		.redirect('/login');
 
 };
 
