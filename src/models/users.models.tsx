@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import mongoose from '@/src/config/db';
+import mongoose from '@/src/config/db.config';
 import bcrypt from 'bcrypt';
 
 interface UserInterface {

@@ -31,7 +31,6 @@ const validate = (event: React.FormEvent<HTMLFormElement>) => {
 	//event.preventDefault();
   
 	const email = (event.target as any).email.value.toLowerCase();
-	const password = (event.target as any).password.value;
 	const errorHandlerSpan = document.getElementById('errorHandler') as HTMLSpanElement;
 
 	// email varification

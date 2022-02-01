@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import mongoose from '@/src/config/db';
+import mongoose from '@/src/config/db.config';
 import User from '@/src/models/users.models';
 
 const SignUpController = async (req: NextApiRequest, res: NextApiResponse) => {

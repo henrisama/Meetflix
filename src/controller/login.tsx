@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import mongoose from '@/src/config/db';
+import mongoose from '@/src/config/db.config';
 import User from '@/src/models/users.models';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -32,6 +32,18 @@ const LoginController = async (req: NextApiRequest, res: NextApiResponse) => {
 				});
 			return;
 		}
+
+		const data = {
+			user: {
+				name: user[0].name,
+				email: user[0].email,
+				profiles: user[0].profiles 
+			}
+		};
+
+		// localStorage.setItem('user', 'teste');
+
+		// sessionStorage.setItem('user', 'test');
 
 		bcrypt.compare(password, user[0].password, function (err, result) {
 			if(err){
