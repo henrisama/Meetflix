@@ -2,24 +2,30 @@
 import { Container } from '@/src/components/container';
 import { Center } from '@/src/components/center';
 import React, { useEffect, useState } from 'react';
-import Profile from '../api/user/[profile]';
+import Profile from '@/src/paterns/profile';
 
-interface Profile {
+
+interface ProfileInterface {
 	name: string,
 	list: Array<object>
 }
 
-const getUserSessionStorage = () => {
-	const data = sessionStorage.getItem('user');
 
-	if(data){
-		const user = JSON.parse(data);
-		return user.data.profiles;
-	}
-};
+const Browser: React.FC= () => {
+	const [profiles, setProfiles] = useState<Array<ProfileInterface>>([]);
+	
+	const getUserSessionStorage = () => {
+		const data = sessionStorage.getItem('user');
+	
+		if(data){
+			const user = JSON.parse(data);
+			return user.data.profiles;
+		}
+	};
 
-const Home: React.FC= () => {
-	const [profiles, setProfiles] = useState([Profile]);
+	const setUserProfile = (key: number) => {
+		sessionStorage.setItem('profile', JSON.stringify(profiles[key]));
+	};
 
 	useEffect(() => {
 		setProfiles(getUserSessionStorage);
@@ -28,14 +34,24 @@ const Home: React.FC= () => {
 	return (
 		<Container>
 			<Center>
-				{profiles.map(function (item, i) {
+				{profiles ? profiles.map(function (item, i) {
 					return (
-						<h2 key={i}>{item.name}</h2>
+						<div 
+							key={i} 
+							onClick= {
+								() => setUserProfile(i)
+							}
+						>
+							<Profile 
+								name={item.name} 
+								key={i} 
+							/>
+						</div>
 					);
-				})}
+				}): '<p>Make login</p>' }
 			</Center>
 		</Container>
 	);
 };
 
-export default Home;
+export default Browser;

@@ -15,7 +15,8 @@ const SignUpController = async (req: NextApiRequest, res: NextApiResponse) => {
 		return res
 			.status(400)
 			.json({
-				message: 'Missing data'
+				success: false,
+				err: 'Missing data'
 			});
 	}
 
@@ -36,7 +37,12 @@ const SignUpController = async (req: NextApiRequest, res: NextApiResponse) => {
 		await newUser
 			.save();
 	} catch (error) {
-		return res.status(500).json({error: error});
+		return res
+			.status(500)
+			.json({
+				success: false,
+				err: error
+			});
 	}
 
 	return res
