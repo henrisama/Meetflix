@@ -12,7 +12,8 @@ const LoginController = async (req: NextApiRequest, res: NextApiResponse) => {
 		res
 			.status(400)
 			.json({
-				message: 'Missing data'
+				success: false,
+				err: 'Missing data'
 			});
 		return;
 	}
@@ -28,29 +29,28 @@ const LoginController = async (req: NextApiRequest, res: NextApiResponse) => {
 			res
 				.status(404)
 				.json({ 
-					message: 'User not found'
+					success: false,
+					err: 'User not found'
 				});
 			return;
 		}
 
 		const data = {
-			user: {
+			data: {
 				name: user[0].name,
 				email: user[0].email,
 				profiles: user[0].profiles 
 			}
 		};
 
-		// localStorage.setItem('user', 'teste');
-
-		// sessionStorage.setItem('user', 'test');
 
 		bcrypt.compare(password, user[0].password, function (err, result) {
 			if(err){
 				res
 					.status(404)
 					.json({ 
-						message: err
+						success: false,
+						err: err
 					});
 				return;
 			}
@@ -78,21 +78,30 @@ const LoginController = async (req: NextApiRequest, res: NextApiResponse) => {
 
 				res
 					.status(200)
-					.redirect('/profiles');
+					.json({
+						success: true,
+						user: data,
+					});
 				return;
 			}else{
 				// passwords do not match
 				res
 					.status(200)
 					.json({ 
-						message: 'Passwords do not match'
+						success: false,
+						err: 'Passwords do not match'
 					});
 				return;
 			}
 		});
 
 	} catch (error) {
-		res.status(500).json({error: error});
+		res
+			.status(500)
+			.json({
+				success: true,
+				err: error
+			});
 		return;
 	}
 };

@@ -12,8 +12,10 @@ interface UserInterface {
   born: String,
   profiles?: [{
 		name?: string
-    wish?: [{id: number}],
-    watched?: [{id: number}]
+		list?: {
+			wish?: Array<number>,
+			watched?:  Array<Number>
+		}
   }]
 }
 
@@ -30,8 +32,10 @@ const User = new mongoose.Schema<
 		born: {type: String, required: true},
 		profiles: [{
 			name: {type: String, required: false},
-			wish: [{id: {type: Number, required: false}}],
-			watched: [{id: {type: Number, required: false}}]
+			list: {
+				wish: {type: [Number]},
+				watched: {type: [Number]}
+			}
 		}]
 	});
 

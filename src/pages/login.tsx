@@ -27,10 +27,11 @@ const SingUpButton = styled.button`
 const Label = styled.label`
 `;
 
-const validate = (event: React.FormEvent<HTMLFormElement>) => {
-	//event.preventDefault();
+const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+	event.preventDefault();
   
 	const email = (event.target as any).email.value.toLowerCase();
+	const password = (event.target as any).password.value;
 	const errorHandlerSpan = document.getElementById('errorHandler') as HTMLSpanElement;
 
 	// email varification
@@ -39,7 +40,28 @@ const validate = (event: React.FormEvent<HTMLFormElement>) => {
 		return false;
 	}
 
-	return true;
+	const response = await fetch(
+		'/api/user/login',
+		{
+			method: 'POST',
+			body: JSON.stringify({
+				email: email,
+				password: password
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			},
+		}
+	).then((value: Response) => {
+		return value.json();
+	});
+
+	if(response.success){
+		sessionStorage.setItem('user', JSON.stringify(response.user));
+		window.location.pathname = '/browser';
+	}
+
+	return false;
 };
 
 const Login: NextPage = () => {
@@ -62,7 +84,7 @@ const Login: NextPage = () => {
 							<form 
 								action="/api/user/login" 
 								method="post"
-								onSubmit={validate}>
+								onSubmit={submit}>
 								<Label>
 									Email
 								</Label>
@@ -89,7 +111,7 @@ const Login: NextPage = () => {
 								<Center>
 									<div>
 										<Link href='/signup' passHref>
-											<SingUpButton>Sign Up</SingUpButton>
+											<SingUpButton type='button'>Sign Up</SingUpButton>
 										</Link>
 										<LoginButton type="submit">Login</LoginButton>
 									</div>
