@@ -4,9 +4,10 @@ const Card = styled.div`
   height: 250px;
   width: 250px;
   border-radius: 50px;
-  background-image: url('/img/default-user-image.png');
+  /* background-image: url('/img/default-user-image.png');
   background-position: center;
-  background-size: cover;
+  background-size: cover; */
+  background-color: white;
 
   :hover{
     cursor: pointer;

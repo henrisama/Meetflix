@@ -23,32 +23,62 @@ const Browser: React.FC= () => {
 		}
 	};
 
+	const getProfiles = async () => {
+		const id = sessionStorage.getItem('id');
+		const response = await fetch(
+			'/api/user/profile',
+			{
+				method: 'GET',
+				body: JSON.stringify({
+					id: id,
+				}),
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			}
+		).then((value: Response) => {
+			return value.json();
+		});
+
+		if(response.success){
+			setProfiles(response.data);
+		}
+	};
+
 	const setUserProfile = (key: number) => {
 		sessionStorage.setItem('profile', JSON.stringify(profiles[key]));
 	};
 
 	useEffect(() => {
-		setProfiles(getUserSessionStorage);
+		//setProfiles(getUserSessionStorage);
+		//getProfiles();
 	}, []);
 
 	return (
 		<Container>
 			<Center>
-				{profiles ? profiles.map(function (item, i) {
-					return (
-						<div 
-							key={i} 
-							onClick= {
-								() => setUserProfile(i)
-							}
-						>
-							<Profile 
-								name={item.name} 
-								key={i} 
-							/>
-						</div>
-					);
-				}): '<p>Make login</p>' }
+				<div>
+					<Container
+						display='flex'
+					>
+						{profiles ? profiles.map(function (item, i) {
+							return (
+								<div 
+									key={i} 
+									onClick= {
+										() => setUserProfile(i)
+									}
+								>
+									<Profile 
+										name={item.name} 
+										key={i} 
+									/>
+								</div>
+							);
+						}): '<p>Make login</p>' }
+						<Profile name=''/>
+					</Container>
+				</div>
 			</Center>
 		</Container>
 	);

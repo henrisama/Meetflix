@@ -2,10 +2,11 @@ import React from 'react';
 import { Container } from '../components/container';
 import { Card, CardName } from '@/src/components/card';
 import { Center } from '../components/center';
+import { BsPlusLg } from 'react-icons/bs';
 
 interface Props {
   name: string,
-  key: number
+  key?: number
 }
 
 const Profile: React.FC<Props> = (props) => {
@@ -14,9 +15,13 @@ const Profile: React.FC<Props> = (props) => {
 			<Card>
 				<Center >
 					<div>
-						<CardName>
-							{props.name}
-						</CardName>
+						{
+							props.name 
+								? <CardName>
+									{props.name}
+								</CardName>
+								: <BsPlusLg size={70} color='#000'/>
+						}
 					</div>
 				</Center>
 			</Card>
