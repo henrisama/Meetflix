@@ -57,7 +57,7 @@ const submit = async (event: React.FormEvent<HTMLFormElement>) => {
 	});
 
 	if(response.success){
-		sessionStorage.setItem('user', JSON.stringify(response.user));
+		sessionStorage.setItem('id', email);
 		window.location.pathname = '/browser';
 	}
 

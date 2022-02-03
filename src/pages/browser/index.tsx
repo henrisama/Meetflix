@@ -3,6 +3,7 @@ import { Container } from '@/src/components/container';
 import { Center } from '@/src/components/center';
 import React, { useEffect, useState } from 'react';
 import Profile from '@/src/paterns/profile';
+import { BsPlusLg } from 'react-icons/bs';
 
 
 interface ProfileInterface {
@@ -14,44 +15,34 @@ interface ProfileInterface {
 const Browser: React.FC= () => {
 	const [profiles, setProfiles] = useState<Array<ProfileInterface>>([]);
 	
-	const getUserSessionStorage = () => {
-		const data = sessionStorage.getItem('user');
-	
-		if(data){
-			const user = JSON.parse(data);
-			return user.data.profiles;
-		}
-	};
 
 	const getProfiles = async () => {
 		const id = sessionStorage.getItem('id');
-		const response = await fetch(
-			'/api/user/profile',
-			{
-				method: 'GET',
-				body: JSON.stringify({
-					id: id,
-				}),
-				headers: {
-					'Content-Type': 'application/json'
-				},
+		if(id){
+			const response = await fetch(
+				'/api/user/profiles?id=' + id,
+				{
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+				}
+			).then((value: Response) => {
+				return value.json();
+			});
+	
+			if(response.success){
+				setProfiles(response.data);
 			}
-		).then((value: Response) => {
-			return value.json();
-		});
-
-		if(response.success){
-			setProfiles(response.data);
 		}
 	};
 
 	const setUserProfile = (key: number) => {
-		sessionStorage.setItem('profile', JSON.stringify(profiles[key]));
+		sessionStorage.setItem('profile', key.toString());
 	};
 
 	useEffect(() => {
-		//setProfiles(getUserSessionStorage);
-		//getProfiles();
+		getProfiles();
 	}, []);
 
 	return (
@@ -64,8 +55,8 @@ const Browser: React.FC= () => {
 						{profiles ? profiles.map(function (item, i) {
 							return (
 								<div 
-									key={i} 
-									onClick= {
+									key={i}
+									onClick={
 										() => setUserProfile(i)
 									}
 								>
@@ -76,7 +67,11 @@ const Browser: React.FC= () => {
 								</div>
 							);
 						}): '<p>Make login</p>' }
-						<Profile name=''/>
+						<Container>
+							<Center>
+								<BsPlusLg size={100} color='white'/>
+							</Center>
+						</Container>
 					</Container>
 				</div>
 			</Center>

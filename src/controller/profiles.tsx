@@ -5,8 +5,31 @@ export const getProfile = async (
 	req: NextApiRequest, 
 	res: NextApiResponse
 ) => {
-	if(req.body.id){
+	if(req.query.id){
+
+		const user = await User.find({ email: req.query.id })
+			.then(function(user) {
+				return user;
+			});
 		
+		if(user.length === 0){
+			res
+				.status(404)
+				.json({ 
+					success: false,
+					err: 'User not found'
+				});
+			return;
+		}
+
+		res
+			.status(200)
+			.json({ 
+				success: true,
+				data: user[0].profiles
+			});
+		return;
+
 	}else{
 		res
 			.status(400)

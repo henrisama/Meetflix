@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import isAuthaticated from '@/src/middlewares/isAuthanticated';
-import { addProfile, getProfile, delProfile, updProfile } from '@/src/controller/profile';
+import { addProfile, getProfile, delProfile, updProfile } from '@/src/controller/profiles';
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -22,4 +22,4 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
 	}
 };
 
-export default isAuthaticated(handler);
+export default handler;
