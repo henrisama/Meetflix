@@ -57,11 +57,12 @@ const submit = async (event: React.FormEvent<HTMLFormElement>) => {
 	});
 
 	if(response.success){
-		sessionStorage.setItem('id', email);
 		window.location.pathname = '/browser';
+	}else{
+		alert(response.err.toString());
 	}
 
-	return false;
+	return;
 };
 
 const Login: NextPage = () => {
@@ -82,7 +83,6 @@ const Login: NextPage = () => {
 						}}>
 						<Center>
 							<form 
-								action="/api/user/login" 
 								method="post"
 								onSubmit={submit}>
 								<Label>

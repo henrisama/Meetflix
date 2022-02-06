@@ -3,6 +3,7 @@ import mongoose from '@/src/config/db.config';
 import User from '@/src/models/users.models';
 
 const SignUpController = async (req: NextApiRequest, res: NextApiResponse) => {
+	console.log(req.body);
 	const { firstName, lastName, born, email, password } = req.body;
 
 	if(
@@ -47,7 +48,10 @@ const SignUpController = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	return res
 		.status(200)
-		.redirect('/login');
+		.json({
+			success: true,
+			message: 'Successfully created'
+		});
 
 };
 

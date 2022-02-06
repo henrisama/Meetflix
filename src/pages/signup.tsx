@@ -29,11 +29,11 @@ const Label = styled.label`
 `;
 
 
-const validate = (event: React.FormEvent<HTMLFormElement>) => {
-	//event.preventDefault();
+const submit = async (event: React.FormEvent<HTMLFormElement>) => {
+	event.preventDefault();
   
-	//const firstName = (event.target as any).firstName.value;
-	//const lastName = (event.target as any).lastName.value;
+	const firstName = (event.target as any).firstName.value;
+	const lastName = (event.target as any).lastName.value;
 	const born = (event.target as any).born.value;
 	const email = (event.target as any).email.value.toLowerCase();
 	const password = (event.target as any).password.value;
@@ -59,7 +59,34 @@ const validate = (event: React.FormEvent<HTMLFormElement>) => {
 		return false;
 	}
 
-	return true;
+	const response = await fetch(
+		'/api/user/signup',
+		{
+			method: 'POST',
+			body: JSON.stringify({
+				firstName: firstName,
+				lastName: lastName,
+				email: email,
+				password: password,
+				born: born.toString(),
+
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			},
+		}
+	).then((value: Response) => {
+		return value.json();
+	});
+
+	if(response.success){
+		window.location.pathname = '/login';
+		alert(response.message);
+	}else{
+		alert(response.err.toString());
+	}
+
+	return;
 };
 
 const SignUp: NextPage = () => {
@@ -78,10 +105,9 @@ const SignUp: NextPage = () => {
 							border: '4px outset red'
 						}}>
 						<Center>
-							<form 
-								action="/api/user/signup" 
+							<form
 								method="post"
-								onSubmit={validate}>
+								onSubmit={submit}>
 								<Center style={{height: '30px'}}>
 								  <span id='errorHandler'/>
 								</Center>

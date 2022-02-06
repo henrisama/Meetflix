@@ -35,15 +35,6 @@ const LoginController = async (req: NextApiRequest, res: NextApiResponse) => {
 			return;
 		}
 
-		const data = {
-			data: {
-				name: user[0].name,
-				email: user[0].email,
-				profiles: user[0].profiles 
-			}
-		};
-
-
 		bcrypt.compare(password, user[0].password, function (err, result) {
 			if(err){
 				res
@@ -64,23 +55,35 @@ const LoginController = async (req: NextApiRequest, res: NextApiResponse) => {
 					{ expiresIn: 60 * 60 * 1000 }
 				);
 
-				res.setHeader('Set-Cookie', cookie.serialize(
-					'jwt',
-					token,
-					{
-						httpOnly: true,
-						secure: process.env.NODE_ENV !== 'development',
-						maxAge: 60*60*1000,
-						sameSite: 'strict',
-						path: '/'
-					}
-				));
+				res.setHeader('Set-Cookie', [
+					cookie.serialize(
+						'jwt',
+						token,
+						{
+							httpOnly: true,
+							secure: process.env.NODE_ENV !== 'development',
+							maxAge: 60*60*1000,
+							sameSite: 'strict',
+							path: '/'
+						}
+					),
+					cookie.serialize(
+						'id_user',
+						user[0].id,
+						{
+							httpOnly: true,
+							secure: process.env.NODE_ENV !== 'development',
+							maxAge: 60*60*1000,
+							sameSite: 'strict',
+							path: '/'
+						}
+					)
+				]);
 
 				res
 					.status(200)
 					.json({
 						success: true,
-						user: data,
 					});
 				return;
 			}else{

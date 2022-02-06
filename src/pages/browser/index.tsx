@@ -17,24 +17,23 @@ const Browser: React.FC= () => {
 	
 
 	const getProfiles = async () => {
-		const id = sessionStorage.getItem('id');
-		if(id){
-			const response = await fetch(
-				'/api/user/profiles?id=' + id,
-				{
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-				}
-			).then((value: Response) => {
-				return value.json();
-			});
 	
-			if(response.success){
-				setProfiles(response.data);
+		const response = await fetch(
+			'/api/user/profiles',
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
+				},
 			}
+		).then((value: Response) => {
+			return value.json();
+		});
+	
+		if(response.success){
+			setProfiles(response.data);
 		}
+	
 	};
 
 	const setUserProfile = (key: number) => {

@@ -5,12 +5,14 @@ export const getProfile = async (
 	req: NextApiRequest, 
 	res: NextApiResponse
 ) => {
-	if(req.query.id){
+	if(req.cookies.id_user){
 
-		const user = await User.find({ email: req.query.id })
+		const user = await User.findById({ _id: req.cookies.id_user })
 			.then(function(user) {
 				return user;
 			});
+
+		console.log(user);
 		
 		if(user.length === 0){
 			res
@@ -26,7 +28,7 @@ export const getProfile = async (
 			.status(200)
 			.json({ 
 				success: true,
-				data: user[0].profiles
+				data: user.profiles
 			});
 		return;
 
