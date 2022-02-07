@@ -5,16 +5,18 @@ export const getProfile = async (
 	req: NextApiRequest, 
 	res: NextApiResponse
 ) => {
-	if(req.cookies.id_user){
+	const { id_user } = req.cookies;
 
-		const user = await User.findById({ _id: req.cookies.id_user })
+	if(id_user){
+		const user = await User.findById({ _id: id_user })
 			.then(function(user) {
 				return user;
+			})
+			.catch(() => {
+				return null;
 			});
-
-		console.log(user);
 		
-		if(user.length === 0){
+		if(!user){
 			res
 				.status(404)
 				.json({ 
@@ -46,15 +48,19 @@ export const addProfile = async (
 	req: NextApiRequest, 
 	res: NextApiResponse
 ) => {
-	const { id, name } = req.body;
+	const { name } = req.body;
+	const { id_user } = req.cookies;
 
-	if(id && name){
-		const user = await User.find({email: id})
-			.then((value) => {
-				return value;
+	if(id_user && name){
+		const user = await User.findById({ _id: id_user })
+			.then(function(user) {
+				return user;
+			})
+			.catch(() => {
+				return null;
 			});
 
-		if(user.length === 0){
+		if(!user){
 			res
 				.status(404)
 				.json({ 
@@ -64,7 +70,7 @@ export const addProfile = async (
 			return;
 		}
 
-		if(user[0].profiles.length >= 4){
+		if(user.profiles.length >= 4){
 			res
 				.status(402)
 				.json({ 
@@ -75,14 +81,14 @@ export const addProfile = async (
 		}
 
 		try{
-			user[0].profiles.push({
+			user.profiles.push({
 				name: name
 			});
 
-			await User.findOneAndUpdate({ 
-				email: id 
+			await User.findByIdAndUpdate({ 
+				_id: id_user 
 			}, {
-				profiles: user[0].profiles
+				profiles: user.profiles
 			});
 		}catch(err){
 			res
@@ -98,7 +104,7 @@ export const addProfile = async (
 			.status(200)
 			.json({
 				success: true,
-				message: 'successfuly created'
+				message: 'Successfuly created'
 			});
 	}else{
 		res
@@ -114,15 +120,19 @@ export const delProfile = async (
 	req: NextApiRequest, 
 	res: NextApiResponse
 ) => {
-	const { id, id_profile } = req.body;
+	const { id_profile } = req.body;
+	const { id_user } = req.cookies;
 
-	if(id && (id_profile != undefined)){
-		const user = await User.find({email: id})
-			.then((value) => {
-				return value;
+	if(id_user && (id_profile != undefined)){
+		const user = await User.findById({ _id: id_user })
+			.then(function(user) {
+				return user;
+			})
+			.catch(() => {
+				return null;
 			});
 
-		if(user.length === 0){
+		if(!user){
 			res
 				.status(404)
 				.json({ 
@@ -132,7 +142,7 @@ export const delProfile = async (
 			return;
 		}
 
-		if(user[0].profiles.length === 0){
+		if(user.profiles.length === 0){
 			res
 				.status(402)
 				.json({ 
@@ -142,7 +152,7 @@ export const delProfile = async (
 			return;
 		}
 
-		if(user[0].profiles[id_profile] == undefined){
+		if(user.profiles[id_profile] == undefined){
 			res
 				.status(404)
 				.json({ 
@@ -153,12 +163,12 @@ export const delProfile = async (
 		}
 
 		try{
-			user[0].profiles.splice(id_profile, 1);
+			user.profiles.splice(id_profile, 1);
 
-			await User.findOneAndUpdate({ 
-				email: id 
+			await User.findByIdAndUpdate({ 
+				_id: id_user 
 			}, {
-				profiles: user[0].profiles 
+				profiles: user.profiles 
 			});
 		}catch(err){
 			res
@@ -174,7 +184,7 @@ export const delProfile = async (
 			.status(200)
 			.json({
 				success: true,
-				message: 'successfuly deleted'
+				message: 'Successfuly deleted'
 			});
 	}else{
 		res
@@ -190,15 +200,19 @@ export const updProfile = async (
 	req: NextApiRequest, 
 	res: NextApiResponse
 ) => {
-	const { id, id_profile, name } = req.body;
+	const { id_profile, name } = req.body;
+	const { id_user } = req.cookies;
 
-	if(id	&& id_profile	&& name){
-		const user = await User.find({email: id})
-			.then((value) => {
-				return value;
+	if(id_user	&& (id_profile != undefined)	&& name){
+		const user = await User.findById({ _id: id_user })
+			.then(function(user) {
+				return user;
+			})
+			.catch(() => {
+				return null;
 			});
 
-		if(user.length === 0){
+		if(!user){
 			res
 				.status(404)
 				.json({ 
@@ -208,7 +222,7 @@ export const updProfile = async (
 			return;
 		}
 
-		if(user[0].profiles.length === 0){
+		if(user.profiles.length === 0){
 			res
 				.status(402)
 				.json({ 
@@ -218,7 +232,7 @@ export const updProfile = async (
 			return;
 		}
 
-		if(user[0].profiles[id_profile] == undefined){
+		if(user.profiles[id_profile] == undefined){
 			res
 				.status(404)
 				.json({ 
@@ -229,12 +243,12 @@ export const updProfile = async (
 		}
 
 		try{
-			user[0].profiles[id_profile].name = name;
+			user.profiles[id_profile].name = name;
 
-			await User.findOneAndUpdate({ 
-				email: id 
+			await User.findByIdAndUpdate({ 
+				_id: id_user
 			}, {
-				profiles: user[0].profiles 
+				profiles: user.profiles 
 			});
 		}catch(err){
 			res
@@ -250,7 +264,7 @@ export const updProfile = async (
 			.status(200)
 			.json({
 				success: true,
-				message: 'successfuly updated'
+				message: 'Successfuly updated'
 			});
 	}else{
 		res

@@ -12,6 +12,18 @@ const Card = styled.div`
   :hover{
     cursor: pointer;
   }
+
+  //tablet
+  @media(max-width: 1400px){
+    height: 200px;
+    width: 200px;
+  }
+
+  //mobile
+  @media(max-width: 600px){
+    height: 150px;
+    width: 150px;
+  }
 `;
 
 const CardName = styled.h1`

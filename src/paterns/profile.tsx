@@ -6,7 +6,6 @@ import { Center } from '../components/center';
 
 interface Props {
   name: string,
-  key?: number
 }
 
 const Profile: React.FC<Props> = (props) => {

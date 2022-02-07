@@ -80,8 +80,8 @@ const submit = async (event: React.FormEvent<HTMLFormElement>) => {
 	});
 
 	if(response.success){
-		window.location.pathname = '/login';
 		alert(response.message);
+		window.location.pathname = '/login';
 	}else{
 		alert(response.err.toString());
 	}

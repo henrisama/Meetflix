@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 
 const middleware = (req: NextRequest) => {
-	/* const url = req.nextUrl.clone();
+	const url = req.nextUrl.clone();
 
 	if(!req.cookies.jwt){
 		url.pathname = '/login';
@@ -16,7 +16,7 @@ const middleware = (req: NextRequest) => {
 		return NextResponse.rewrite(url);
 	}
 
-	NextResponse.next(); */
+	NextResponse.next();
 };
 
 export default middleware;
