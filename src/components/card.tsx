@@ -7,7 +7,7 @@ const Card = styled.div`
   /* background-image: url('/img/default-user-image.png');
   background-position: center;
   background-size: cover; */
-  background-color: white;
+  background-color: #a53030;
 
   :hover{
     cursor: pointer;
@@ -27,7 +27,8 @@ const Card = styled.div`
 `;
 
 const CardName = styled.h1`
-  color: black;
+  color: white;
+  text-align: center;
 
 `;
 

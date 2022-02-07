@@ -7,7 +7,9 @@ interface ContainerProps{
   padding?: string,
   display?: string,
   justifyContent?: string,
-  backgroundColor?: string
+  backgroundColor?: string,
+  alignItems?: string,
+  textAlign?: string,
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -18,4 +20,6 @@ export const Container = styled.div<ContainerProps>`
   display: ${(props) => props.display? props.display : 'block' };
   justify-content: ${(props) => props.justifyContent? props.justifyContent : 'none' };
   background-color: ${(props) => props.backgroundColor? props.backgroundColor : '' };
+  align-items: ${(props) => props.alignItems? props.alignItems : '' };
+  text-align: ${(props) => props.textAlign? props.textAlign : '' };
 `;
