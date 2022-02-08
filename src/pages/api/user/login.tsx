@@ -5,7 +5,6 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
 	return new Promise(() => {
 		switch (req.method) {
 		case 'POST':
-			console.log('test');
 			LoginController(req,res);
 			break;
 		

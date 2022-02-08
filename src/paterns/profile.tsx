@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from '../components/container';
-import { Card, CardName } from '@/src/components/card';
+import { Card, CardName } from '@/src/components/card/profile';
 import { Center } from '../components/center';
 import { FcEmptyTrash } from 'react-icons/fc';
 import { MdEdit } from 'react-icons/md';

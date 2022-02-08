@@ -43,7 +43,7 @@ const Browser: React.FC= () => {
 	const [profiles, setProfiles] = useState<Array<ProfileInterface>>([]);	
 	const [editMode, setEditMode] = useState(false);
 
-	const getProfiles = async () => {
+	const loadProfiles = async () => {
 		const response = await fetch(
 			'/api/user/profiles',
 			{
@@ -83,7 +83,7 @@ const Browser: React.FC= () => {
 			});
 	
 			if(response.success){
-				getProfiles();
+				loadProfiles();
 			}else{
 				alert(response.err.toString());
 			}
@@ -117,7 +117,7 @@ const Browser: React.FC= () => {
 			});
 	
 			if(response.success){
-				getProfiles();
+				loadProfiles();
 			}else{
 				alert(response.err.toString());
 			}
@@ -145,7 +145,7 @@ const Browser: React.FC= () => {
 				});
 		
 				if(response.success){
-					getProfiles();
+					loadProfiles();
 				}else{
 					alert(response.err.toString());
 					return;
@@ -164,7 +164,7 @@ const Browser: React.FC= () => {
 	};
 
 	useEffect(() => {
-		getProfiles();
+		loadProfiles();
 	}, []);
 
 	return (
@@ -175,27 +175,30 @@ const Browser: React.FC= () => {
 						display='flex'
 					>
 						<Grid>
-							{profiles ? profiles.map(function (item, i) {
-								return (
-									<div key={i}>
-										<Link href={editMode? '/browser': '/profile'} passHref>
-											<div 
-												onClick={
-													() => setUserProfile(i)
-												}
-											>
-												<Profile 
-													name={item.name}
-													id_profile={i}
-													editMode={editMode}
-													delProfile={delProfiles}
-													updProfile={updProfiles}
-												/>
-											</div>
-										</Link>
-									</div>
-								);
-							}): 'Make login' }
+							{
+								profiles ? profiles.map(function (item, i) {
+									return (
+										<div key={i}>
+											<Link href={editMode? '/browser': '/profile'} passHref>
+												<div 
+													onClick={
+														() => setUserProfile(i)
+													}
+												>
+													<Profile 
+														name={item.name}
+														id_profile={i}
+														editMode={editMode}
+														delProfile={delProfiles}
+														updProfile={updProfiles}
+													/>
+												</div>
+											</Link>
+										</div>
+									);
+								})
+									: 'Make login' 
+							}
 							<Container>
 								<div>	
 									<CustomEdit>
