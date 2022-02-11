@@ -8,7 +8,7 @@ const Card = styled.div<CardInterface>`
   margin: 10px;
   width: 200px;
   height: 300px;
-  background-image: url(${(props) => 	props.image_path ? 'https://image.tmdb.org/t/p/w500/' + props.image_path : '' }); 
+  background-image: url(${(props) => 	props.image_path ? 'https://image.tmdb.org/t/p/w500/' + props.image_path : '/img/default.jpg' }); 
   background-position: center;
   background-size: cover;
   border-radius: 20px;

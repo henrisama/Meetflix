@@ -92,7 +92,6 @@ const Login: NextPage = () => {
 								<Input 
 									type="email" 
 									name="email" 
-									id=""
 									placeholder='example@example.com' 
 									required/>
 								<br />
@@ -102,8 +101,7 @@ const Login: NextPage = () => {
 								<br />
 								<Input 
 									type="password" 
-									name="password" 
-									id="" 
+									name="password"  
 									minLength={8}
 									maxLength={30}
 									required/>

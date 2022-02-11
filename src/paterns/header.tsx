@@ -63,6 +63,7 @@ const HeaderSearch = styled.div`
 		width: 300px;
 		padding: 0px 10px 0px 40px;
 		color: white;
+		font-size: 14pt;
 		border: none;
 		border-radius: 10px;
 		background-color: #7c1e1e;
@@ -91,6 +92,13 @@ const Header: React.FC = () => {
 		}
 	};
 
+	/* const headerSearchBar = document.getElementById('header-search-bar') as HTMLInputElement;
+		headerSearchBar.onkeydown = (value: any) => {
+			if(value.keyCode === 13){
+				//window.location.pathname = '/browser/search?query='+value.target.value.toString();
+			}
+		}; */
+
 	return (
 		<Container backgroundColor='#e63535' height='75px'>
 			<CustomDiv>
@@ -101,11 +109,11 @@ const Header: React.FC = () => {
 					width='auto'
 					alignItems='center'
 				>
-					<Link href='/browser' passHref>
+					<HeaderLink href='browser'>
 						<HeaderTitle>
 								Meetflix
 						</HeaderTitle>
-					</Link>
+					</HeaderLink>
 					
 					<Link href='/profile/wish' passHref>
 						<HeaderLink>
@@ -136,7 +144,7 @@ const Header: React.FC = () => {
 				>
 					<HeaderSearch>
 						<FcSearch  size={25} cursor='pointer' style={{transform: 'translateX(30px)'}}/>
-						<input type="text" name="" id="" />
+						<input type="text" name="" id="header-search-bar" />
 					</HeaderSearch>
 
 					<Container
