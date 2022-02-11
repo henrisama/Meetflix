@@ -7,6 +7,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	switch (req.method) {
 	case 'GET':
 		const response = await Browser(req, res);
+
+		if(response.success === false){
+			res
+				.status(402)
+				.json({
+					success: false, 
+					err: {
+						message: 'Invalid page: Pages start at 1 and max at 1000. They are expected to be an integer.'
+					}
+				});
+			return;
+		}
+		
 		res
 			.status(200)
 			.json({

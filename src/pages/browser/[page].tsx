@@ -4,12 +4,13 @@ import { Container } from '@/src/components/container';
 import { Row } from '@/src/components/row';
 import Banner from '@/src/paterns/banner';
 import Header from '@/src/paterns/header';
+import { GetStaticPaths, GetStaticProps, NextPage, NextPageContext } from 'next';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-interface TrendingInterface{
-	adult: string,
+
+interface ResultInterface{
+  adult: string,
 	id: number,
 	original_language: string,
 	original_title: string,
@@ -21,6 +22,15 @@ interface TrendingInterface{
 	title: string,
 	vote_average: number,
 	media_type: string
+}
+
+interface Props{
+  data: {
+    page?: number,
+    results?: Array<ResultInterface>,
+    total_pages: number,
+    total_reuslts: number
+  };
 }
 
 const NextandPrevious = styled.div`
@@ -42,61 +52,27 @@ const NextandPrevious = styled.div`
 	}
 `;
 
-const Home: React.FC = () => {
-	const [data, setData] = useState<Array<TrendingInterface>>([]);
+const Browser: NextPage<Props> = ({data}) => {
+	const NextPreviousHandler = (event: number) => {
+		// 0 previous
+		// 1 next
 
-	const loadBrowser = async () => {
-		const params = new URLSearchParams(window.location.search);
-		const page = params.get('page');
-
-		const response = await fetch(
-			'/api/user/browser?page='+(page? page : 1),
-			{
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-			}
-		).then((value: Response) => {
-			return value.json();
-		});
-
-		if(response.success){
-			setData(response.data['results']);
-		}else{
-			alert('error');
-		}
-	};
-
-	const pageHandler = (event: string) => {
-		const params = new URLSearchParams(window.location.search);
-		const page = Number(params.get('page'));
-
-		if(page){
-			if(event === 'previous'){
-				if(page > 1){
-					window.location.href = 'browser?page='+(page-1);
+		if(data.page){
+			if(event === 0){
+				if(data.page > 1){
+					window.location.href = '/browser/'+(data.page-1);
 				}
 			}
 	
-			if(event === 'next'){
-				if(page <= 100){
-					window.location.href = 'browser?page='+(page+1);
+			if(event === 1){
+				if(data.page <= 100){
+					window.location.href = '/browser/'+(data.page+1);
 				}
 			}
-		}else{
-			if(event === 'next'){
-				window.location.href = 'browser?page='+(2);
-			}
 		}
-
 	};
 
-	useEffect(() => {
-		loadBrowser();
-	}, []);
-
-	return (
+	return(
 		<div>
 			<Header />
 			<Container>
@@ -104,12 +80,11 @@ const Home: React.FC = () => {
 				{/* Banners */}
 				<Container
 					padding='40px 0px'
-					//backgroundColor='blue'
 				>
 					<Center>
 						<Row>
 							{
-								data? data.map(function (item, i) {
+								data && data.results? data.results.map(function (item, i) {
 									return(
 										<Col key={i}>
 											<Banner 
@@ -141,8 +116,8 @@ const Home: React.FC = () => {
 								padding='20px 0px 40px 0px'
 								display='flex'
 							>
-								<NextandPrevious onClick={() => pageHandler('previous')}>{'<'}</NextandPrevious>
-								<NextandPrevious onClick={() => pageHandler('next')}>{'>'}</NextandPrevious>
+								<NextandPrevious onClick={() => NextPreviousHandler(0)}>{'<'}</NextandPrevious>
+								<NextandPrevious onClick={() => NextPreviousHandler(1)}>{'>'}</NextandPrevious>
 							</Container>
 						</div>
 					</Center>
@@ -152,4 +127,37 @@ const Home: React.FC = () => {
 	);
 };
 
-export default Home;
+Browser.getInitialProps = async (ctx: NextPageContext) => {
+	if(!ctx.req){
+		return { data: [] };
+	}
+
+	const { query } = ctx;
+	const url = query
+		? 'http://localhost:3000/api/user/browser?page='+query.page
+		: 'http://localhost:3000/api/user/browser';
+
+	const response = await fetch(
+		url,
+		{
+			method: 'GET',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Cookie': (ctx.req.headers.cookie as any)
+			},
+		}
+	).then((value: Response) => {
+		return value.json();
+	});
+  
+	if(!response.success){
+		return {data: []};
+	}
+  
+	return {
+		data: response.data
+	};
+};
+
+export default Browser;

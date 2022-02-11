@@ -179,7 +179,10 @@ const Browser: React.FC= () => {
 								profiles ? profiles.map(function (item, i) {
 									return (
 										<div key={i}>
-											<Link href={editMode? '/profile': '/browser'} passHref>
+											<a 
+												href={editMode? '/profile': '/browser/1'} 
+												style={{textDecoration: 'none'}}
+											>
 												<div 
 													onClick={
 														() => setUserProfile(i)
@@ -193,7 +196,7 @@ const Browser: React.FC= () => {
 														updProfile={updProfiles}
 													/>
 												</div>
-											</Link>
+											</a>
 										</div>
 									);
 								})
