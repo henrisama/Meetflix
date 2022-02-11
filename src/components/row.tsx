@@ -4,7 +4,7 @@ export const Row = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    background-color: white;
+    //background-color: white;
     
     //tablet
     @media(max-width: 1100px){

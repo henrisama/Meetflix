@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const Col = styled.div`
-    margin: auto;
+    //margin: 10px;
+    //justify-content: start;
     
     //tablet
     @media(max-width: 1100px){

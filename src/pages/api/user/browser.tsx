@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import isAuthaticated from '@/src/middlewares/isAuthanticated';
-import { Trending } from '@/src/controller/trending';
+import { Browser } from '@/src/controller/browser';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	switch (req.method) {
 	case 'GET':
-		const response = await Trending();
+		const response = await Browser(req, res);
 		res
 			.status(200)
 			.json({

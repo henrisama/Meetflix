@@ -102,7 +102,7 @@ const LoginController = async (req: NextApiRequest, res: NextApiResponse) => {
 		res
 			.status(500)
 			.json({
-				success: true,
+				success: false,
 				err: error
 			});
 		return;

@@ -57,7 +57,7 @@ const submit = async (event: React.FormEvent<HTMLFormElement>) => {
 	});
 
 	if(response.success){
-		window.location.pathname = '/browser';
+		window.location.pathname = '/profile';
 	}else{
 		alert(response.err.toString());
 	}

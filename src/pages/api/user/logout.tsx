@@ -1,11 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import isAuthaticated from '@/src/middlewares/isAuthanticated';
+import LogoutController from '@/src/controller/logout';
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
 
 	switch (req.method) {
 	case 'GET':
-			
+		LogoutController(req, res);
 		break;
 	
 	default:
