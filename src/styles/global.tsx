@@ -5,6 +5,8 @@ export default createGlobalStyle`
     margin: 0px;
     padding: 0px;
     outline: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
     font-family: 'roboto', Arial, Helvetica, sans-serif;
   }
