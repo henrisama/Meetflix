@@ -8,40 +8,40 @@ export const getWish = async (
 	const { id_user, id_profile } = req.cookies;
 
 	if(id_user && id_profile){
-		await User.findById({ _id: id_user })
-			.then(function (user){
-				if(!user){
-					res
-						.status(404)
-						.json({ 
-							success: false,
-							err: 'User not found'
-						});
-					return;
-				}
-				
-				const response = user
-					.profiles[Number(id_profile)]
-					.list
-					.wish;
-
+		const user = await User.findById({
+			 _id: id_user 
+		}).then(async function (user){
+			if(!user){
 				res
-					.status(200)
-					.json({
-						success: true,
-						data: response
-					});
-				return;
-			})
-			.catch(function (err){
-				res
-					.status(502)
+					.status(404)
 					.json({ 
 						success: false,
-						err: 'Error getting wishlist in mongodb'
+						err: 'User not found'
 					});
 				return;
+			}
+			return user;
+		}).catch(function (err){
+			res
+				.status(502)
+				.json({ 
+					success: false,
+					err: 'Error getting wishlist in mongodb'
+				});
+			return;
+		});
+
+		const wishList: Array<number> = user
+			.profiles[Number(id_profile)]
+			.list
+			.wish;
+		res
+			.status(200)
+			.json({
+				success: true,
+				data: wishList
 			});
+		return;
 	}else{
 		res
 			.status(400)
