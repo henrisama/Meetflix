@@ -16,9 +16,7 @@ export const Browser = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const response = await fetch(
 		url,
-		{
-			method: 'GET'
-		}
+		{ method: 'GET'	}
 	).then((value: any) => {
 		return value.json();
 	});

@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import getMovieSerie from 'public/js/getMovieSerie';
 import User from '../models/users.models';
 
 export const getWish = async (
@@ -35,11 +36,20 @@ export const getWish = async (
 			.profiles[Number(id_profile)]
 			.list
 			.wish;
+
+		var wish_list = [];
+		for(const item of wishList){
+			const response = await getMovieSerie(item);
+			if(response !== null){
+				wish_list.push(response);
+			}
+		}
+
 		res
 			.status(200)
 			.json({
 				success: true,
-				data: wishList
+				data: wish_list
 			});
 		return;
 	}else{
@@ -91,7 +101,7 @@ export const addWish = async (
 			if(index === -1){
 				(user.profiles[Number(id_profile)].list.wish as Array<number>).push(id);
 			}
-  
+			
 			await User.findByIdAndUpdate({ 
 				_id: id_user
 			}, {

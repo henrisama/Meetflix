@@ -15,6 +15,7 @@ const Card = styled.div<CardInterface>`
 
   transition: all 0.4s linear;
   -webkit-transition: all 0.4s linear;
+  color: white;
 
   :hover{
     -webkit-transform: scale(1.1);
@@ -25,6 +26,7 @@ const Card = styled.div<CardInterface>`
 const CardTitle = styled.h3`
   text-align: start;
   padding: 10px 0px;
+  color: white;
 `;
 
 const CardDescribe = styled.div`
@@ -34,6 +36,7 @@ const CardDescribe = styled.div`
   text-align: start;
   justify-content: start;
   font-size: 8pt;
+  color: white;
 `;
 
 const CardOverview = styled.p`
@@ -45,6 +48,7 @@ const CardOverview = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 10pt;
+  color: white;
 `;
 
 export {Card, CardTitle, CardDescribe, CardOverview};

@@ -27,6 +27,18 @@ const SingUpButton = styled.button`
 const Label = styled.label`
 `;
 
+const CustomDiv = styled.div`
+  height: 100%;
+	background-image: url('/img/home-background.jpg');
+  background-position: center;
+  background-size: cover;
+`;
+
+const CustomOpacity = styled.div`
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+`;
+
 const submit = async (event: React.FormEvent<HTMLFormElement>) => {
 	event.preventDefault();
   
@@ -67,59 +79,63 @@ const submit = async (event: React.FormEvent<HTMLFormElement>) => {
 
 const Login: NextPage = () => {
 	return (
-		<Container>
-			<Head>
-				<title>Login</title>
-			</Head>
-			<Center>
-				<div>
-					<Container 
-						backgroundColor='red' 
-						height='400px' 
-						width='400px' 
-						style={{
-							borderRadius: '30px', 
-							border: '4px outset red'
-						}}>
-						<Center>
-							<form 
-								method="post"
-								onSubmit={submit}>
-								<Label>
-									Email
-								</Label>
-								<br />
-								<Input 
-									type="email" 
-									name="email" 
-									placeholder='example@example.com' 
-									required/>
-								<br />
-								<Label>
-									Password
-								</Label>
-								<br />
-								<Input 
-									type="password" 
-									name="password"  
-									minLength={8}
-									maxLength={30}
-									required/>
-								<br />
+		<CustomDiv>
+			<CustomOpacity>
+				<Container>
+					<Head>
+						<title>Login</title>
+					</Head>
+					<Center>
+						<div>
+							<Container 
+								backgroundColor='red' 
+								height='400px' 
+								width='400px' 
+								style={{
+									borderRadius: '30px', 
+									border: '4px outset red'
+								}}>
 								<Center>
-									<div>
-										<Link href='/signup' passHref>
-											<SingUpButton type='button'>Sign Up</SingUpButton>
-										</Link>
-										<LoginButton type="submit">Login</LoginButton>
-									</div>
+									<form 
+										method="post"
+										onSubmit={submit}>
+										<Label>
+										Email
+										</Label>
+										<br />
+										<Input 
+											type="email" 
+											name="email" 
+											placeholder='example@example.com' 
+											required/>
+										<br />
+										<Label>
+										Password
+										</Label>
+										<br />
+										<Input 
+											type="password" 
+											name="password"  
+											minLength={8}
+											maxLength={30}
+											required/>
+										<br />
+										<Center>
+											<div>
+												<Link href='/signup' passHref>
+													<SingUpButton type='button'>Sign Up</SingUpButton>
+												</Link>
+												<LoginButton type="submit">Login</LoginButton>
+											</div>
+										</Center>
+									</form>
 								</Center>
-							</form>
-						</Center>
-					</Container>
-				</div>
-			</Center>
-		</Container>
+							</Container>
+						</div>
+					</Center>
+				</Container>
+			</CustomOpacity>
+		</CustomDiv>
 	);
 };
 

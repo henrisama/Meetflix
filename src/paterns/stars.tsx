@@ -32,17 +32,17 @@ const Stars: React.FC<StarsInterface> = (props) => {
 							.map(function (item, i){
 								if(rate - i > 0.5) {
 									return (
-										<BsStarFill className='card-star-rating-fill' size={12} key={i}/>
+										<BsStarFill size={12} key={i} color='gold'/>
 									);
 								}
 								else if(rate - i === 0.5){
 									return (
-										<BsStarHalf className='card-star-rating-fill' size={12} key={i}/>
+										<BsStarHalf size={12} key={i} color='gold'/>
 									);
 								}
 								else{
 									return (
-										<BsStar className='card-star-rating-fill' size={12} key={i}/>
+										<BsStar size={12} key={i} color='gold'/>
 									);
 								}
 							})

@@ -3,6 +3,12 @@ import { Card, CardDescribe, CardOverview, CardTitle } from '@/src/components/ca
 import styled from 'styled-components';
 import Stars from './stars';
 
+import { IoAddOutline } from 'react-icons/io5';
+import { BsCheck2 } from 'react-icons/bs';
+
+
+import { IoIosGlasses } from 'react-icons/io';
+
 interface BannerInterface {
 	adult: string,
 	id: number,
@@ -25,6 +31,7 @@ const CustomDiv = styled.div`
 	border-radius: 18px;
 	
 	transition: all 0.5s linear;
+	opacity: 0;
 
 	:hover {
 		background-image: linear-gradient( 
@@ -34,20 +41,87 @@ const CustomDiv = styled.div`
 			black
 		);
 
-		color: white;
+		opacity: 1;
+	}
+`;
+const CustomDivIcon = styled.div`
+	margin-right: 5px;
+	cursor: pointer;
 
-		.card-star-rating-fill{
-			color: gold;
-		}
+	transition: all 0.1s linear;
+	-webkit-transition: all 0.1s linear;
 
-		#card-heart-fill{
-			color: #ff0000da;
-			cursor: pointer;
-		}
+	color: white;
+
+	:hover{
+		color: gray;
+		-webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
 	}
 `;
 
 const Banner: React.FC<BannerInterface> = (props) => {
+	const addToWishList = async (id:number) => {
+		if(!id){
+			alert('Not id provider on adding to wish list');
+			return;
+		}
+
+		const response: any = await fetch(
+			'http://localhost:3000/api/user/profile/wish',
+			{
+				method: 'POST',
+				body: JSON.stringify({
+					id: id
+				}),
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			}
+		).then((value) => {
+			return value.json();
+		});
+
+		if(response){
+			alert(response.message);
+		}else{
+			alert('error getting response');
+		}
+
+		return;
+	};
+
+	const addToWatchedList = async (id:number) => {
+		if(!id){
+			alert('Not id provider on adding to watched list');
+			return;
+		}
+
+		const response: any = await fetch(
+			'http://localhost:3000/api/user/profile/watched',
+			{
+				method: 'POST',
+				body: JSON.stringify({
+					id: id
+				}),
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			}
+		).then((value) => {
+			return value.json();
+		});
+
+		if(response){
+			alert(response.message);
+		}else{
+			alert('error getting response');
+		}
+
+		return;
+	};
+
+
 	return (
 		<Container>
 			<Card 
@@ -86,6 +160,28 @@ const Banner: React.FC<BannerInterface> = (props) => {
 						{/* Star Rating */}
 						<Container>
 							<Stars rating={props.vote_average? props.vote_average : 0}/>
+						</Container>
+
+						{/* Add wish and watched list */}
+						<Container
+							display='flex'
+						>
+
+							{/* if id is in getIdOfWishList show remove button with their method, else show Add button with their method */}
+							<CustomDivIcon>
+								<IoAddOutline
+									size={30} 
+									title='Add to wish list' 
+									onClick={() => {addToWishList(props.id);}}
+								/>
+							</CustomDivIcon>
+							<CustomDivIcon>
+								<IoIosGlasses 
+									size={30} 
+									title='Add to watched list'
+									onClick={() => {addToWatchedList(props.id);}}
+								/>
+							</CustomDivIcon>
 						</Container>
 					</Container>
 				</CustomDiv>
