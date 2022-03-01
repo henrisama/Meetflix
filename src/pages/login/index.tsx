@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Center } from '../components/center';
-import { Container } from '../components/container';
+import { Center } from '../../components/center';
+import { Container } from '../../components/container';
 import styled from 'styled-components';
 import Link from 'next/link';
 

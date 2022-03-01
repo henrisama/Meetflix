@@ -115,13 +115,13 @@ const Header: React.FC = () => {
 						</HeaderTitle>
 					</HeaderLink>
 					
-					<Link href='/profile/wish' passHref>
+					<Link href='/browser/wish' passHref>
 						<HeaderLink>
 								Wish
 						</HeaderLink>
 					</Link>
 
-					<Link href='/profile/watch' passHref>
+					<Link href='/browser/watch' passHref>
 						<HeaderLink>
 								Watch
 						</HeaderLink>
