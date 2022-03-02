@@ -17,9 +17,9 @@ export const getWatched = async (
 					.status(404)
 					.json({ 
 						success: false,
-						err: 'User not found (Get Watched)'
+						message: 'User not found (watched list)'
 					});
-				return;
+				return null;
 			}
 			return user;
 		}).catch(function (err){
@@ -27,50 +27,64 @@ export const getWatched = async (
 				.status(502)
 				.json({ 
 					success: false,
-					err: 'Error getting wached list in mongodb (Get Watched)'
+					message: 'Error getting watched list in mongodb (watched list)'
 				});
-			return;
+			return null;
 		});
 
-		const watchedList: Array<number> = user
-			.profiles[Number(id_profile)]
-			.list
-			.watched;
+		if(!user){ return;	}
 
 		var watched_list = [];
-		for(const item of watchedList){
-			const response = await getMovieSerie(item);
-			if(response !== null){
-				watched_list.push(response);
+
+		try{
+			const wishList: Array<number> = user
+				.profiles[Number(id_profile)]
+				.list
+				.watched;
+	
+			for(const item of wishList){
+				const response = await getMovieSerie(item);
+				if(response !== null){
+					watched_list.push(response);
+				}
 			}
+			
+			res
+				.status(200)
+				.json({
+					success: true,
+					data: watched_list
+				});
+			return;
+		}catch(error){
+			res
+				.status(404)
+				.json({ 
+					success: false,
+					message: 'User not found (watched list)'
+				});
+			return;
 		}
 
-		res
-			.status(200)
-			.json({
-				success: true,
-				data: watched_list
-			});
-		return;
 	}else{
 		res
 			.status(400)
 			.json({
 				success: false,
-				err: 'Missing data (Get Watched)'
+				message: 'Missing data (watched list)'
 			});
 		return;
 	}
 };
 
 export const addWatched = async (
-	id: number,
 	req: NextApiRequest, 
 	res: NextApiResponse
 ): Promise<void> => {
 	const { id_user, id_profile } = req.cookies;
+	const { media_type, id } = req.body;
 
-	if(id_user	&& id_profile && id){
+	if(id_user	&& id_profile && id && media_type){
 		const user = await User.findById({ _id: id_user })
 			.then(function(user) {
 				if(!user){
@@ -78,9 +92,9 @@ export const addWatched = async (
 						.status(404)
 						.json({ 
 							success: false,
-							err: 'User not found  (Add Watched)'
+							message: 'User not found (watched list)'
 						});
-					return;
+					return null;
 				}
 				return user;
 			})
@@ -89,47 +103,60 @@ export const addWatched = async (
 					.status(502)
 					.json({ 
 						success: false,
-						err: 'Error getting watched list in mongodb (Add Watched)'
+						message: 'Error getting watched list in mongodb (watched list)'
 					});
-				return;
+				return null;
 			});
 
-		try{
-			const index = (user.profiles[id_profile].list.watched as Array<number>)
-				.findIndex(element => element === id);
+		if(!user){ return;	}
 
-			if(index === -1){
-				(user.profiles[Number(id_profile)].list.watched as Array<number>).push(id);
+		try{
+
+			let wish_list = (user.profiles[id_profile].list.watched as Array<any>);
+			
+			for(const item of wish_list){
+				if(id === (item as any).id){
+					res
+						.status(200)
+						.json({
+							success: true,
+							message: 'Already added (watched list)'
+						});
+					return;
+				}
 			}
-  
+
+			(user.profiles[Number(id_profile)].list.watched as Array<any>).push({media_type: media_type, id: id});
+
 			await User.findByIdAndUpdate({ 
 				_id: id_user
 			}, {
 				profiles: user.profiles 
 			});
+
+			res
+				.status(200)
+				.json({
+					success: true,
+					message: 'Successfuly added (watched list)'
+				});
+			return;
 		}catch(err){
 			res
 				.status(502)
 				.json({ 
 					success: false,
-					err: 'Could not add movie/tv (Add Watched)'
+					message: 'Could not add movie/tv (watched list)'
 				});
 			return;
 		}
-  
-		res
-			.status(200)
-			.json({
-				success: true,
-				message: 'Successfuly added (Add Watched)'
-			});
-		return;
+
 	}else{
 		res
 			.status(400)
 			.json({
 				success: false,
-				err: 'Missing data (Add Watched)'
+				message: 'Missing data (watched list)'
 			});
 		return;
 	}
@@ -150,9 +177,9 @@ export const delWatched = async (
 						.status(404)
 						.json({ 
 							success: false,
-							err: 'User not found (Delete Watched)'
+							message: 'User not found (watched list)'
 						});
-					return;
+					return null;
 				}
 				return user;
 			})
@@ -161,46 +188,49 @@ export const delWatched = async (
 					.status(502)
 					.json({ 
 						success: false,
-						err: 'Error getting watched list in mongodb (Delete Watched)'
+						message: 'Error getting wishlist in mongodb (watched list)'
 					});
-				return;
+				return null;
 			});
+
+		if(!user){ return;	}
 
 		try{
-			const index = (user.profiles[id_profile].list.watched as Array<number>)
-				.findIndex(element => element === id);
+			const index = (user.profiles[id_profile].list.watched as Array<any>)
+				.findIndex(item => item.id === id);
 
 			if(index >= 0){
-				(user.profiles[id_profile].list.watched as Array<number>).splice(index, 1);
+				(user.profiles[id_profile].list.watched as Array<any>).splice(index, 1);
+
+				await User.findByIdAndUpdate({ 
+					_id: id_user
+				}, {
+					profiles: user.profiles 
+				});
 			}
 
-			await User.findByIdAndUpdate({ 
-				_id: id_user
-			}, {
-				profiles: user.profiles 
-			});
+			res
+				.status(200)
+				.json({
+					success: true,
+					message: 'Successfuly deleted (watched list)'
+				});
 		}catch(err){
 			res
 				.status(502)
 				.json({ 
 					success: false,
-					err: 'Could not remove movie/tv (Delete Watched)'
+					message: 'Could not remove movie/tv (watched list)'
 				});
 			return;
 		}
   
-		res
-			.status(200)
-			.json({
-				success: true,
-				message: 'Successfuly deleted (Delete Watched)'
-			});
 	}else{
 		res
 			.status(400)
 			.json({
 				success: false,
-				err: 'Missing data (Delete Watched)'
+				message: 'Missing data (watched list)'
 			});
 	}
 };

@@ -97,6 +97,8 @@ const Browser: NextPage<Props> = ({data}) => {
 												release_date={item.release_date}
 												title={(item.name)? item.name : item.title}
 												vote_average={item.vote_average}
+												watched={false}
+												wish={false}
 											/>
 										</Col>
 									);

@@ -1,15 +1,16 @@
-const getMovieSerie = async (id: number) => {
+const getMovieSerie = async (item: any) => {
 	let response;
-	response = await fetch(
-		`https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.API_THEMOVIEDB}`,
-		{ method: 'GET'	}
-	).then((value: any) => {
-		return value.json();
-	});
 
-	if(response.success && response.success === false){
+	if(item.media_type === 'movie'){
 		response = await fetch(
-			`https://api.themoviedb.org/3/tv/${id}?api_key=${process.env.API_THEMOVIEDB}`,
+			`https://api.themoviedb.org/3/movie/${item.id}?api_key=${process.env.API_THEMOVIEDB}`,
+			{ method: 'GET'	}
+		).then((value: any) => {
+			return value.json();
+		});
+	}else if(item.media_type === 'tv'){
+		response = await fetch(
+			`https://api.themoviedb.org/3/tv/${item.id}?api_key=${process.env.API_THEMOVIEDB}`,
 			{ method: 'GET'	}
 		).then((value: any) => {
 			return value.json();
@@ -20,6 +21,7 @@ const getMovieSerie = async (id: number) => {
 		return null;
 	}
 
+	response.media_type = item.media_type;
 	return response;
 };
 

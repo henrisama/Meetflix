@@ -17,9 +17,9 @@ export const getWish = async (
 					.status(404)
 					.json({ 
 						success: false,
-						err: 'User not found'
+						message: 'User not found (wish list)'
 					});
-				return;
+				return null;
 			}
 			return user;
 		}).catch(function (err){
@@ -27,50 +27,64 @@ export const getWish = async (
 				.status(502)
 				.json({ 
 					success: false,
-					err: 'Error getting wishlist in mongodb'
+					message: 'Error getting wishlist in mongodb (wish list)'
 				});
-			return;
+			return null;
 		});
 
-		const wishList: Array<number> = user
-			.profiles[Number(id_profile)]
-			.list
-			.wish;
+		if(!user){ return;	}
 
 		var wish_list = [];
-		for(const item of wishList){
-			const response = await getMovieSerie(item);
-			if(response !== null){
-				wish_list.push(response);
+
+		try{
+			const wishList: Array<number> = user
+				.profiles[Number(id_profile)]
+				.list
+				.wish;
+	
+			for(const item of wishList){
+				const response = await getMovieSerie(item);
+				if(response !== null){
+					wish_list.push(response);
+				}
 			}
+			
+			res
+				.status(200)
+				.json({
+					success: true,
+					data: wish_list
+				});
+			return;
+		}catch(error){
+			res
+				.status(404)
+				.json({ 
+					success: false,
+					message: 'User not found (wish list)'
+				});
+			return;
 		}
 
-		res
-			.status(200)
-			.json({
-				success: true,
-				data: wish_list
-			});
-		return;
 	}else{
 		res
 			.status(400)
 			.json({
 				success: false,
-				err: 'Missing data'
+				message: 'Missing data (wish list)'
 			});
 		return;
 	}
 };
 
 export const addWish = async (
-	id: number,
 	req: NextApiRequest, 
 	res: NextApiResponse
 ): Promise<void> => {
 	const { id_user, id_profile } = req.cookies;
+	const { media_type, id } = req.body;
 
-	if(id_user	&& id_profile && id){
+	if(id_user	&& id_profile && id && media_type){
 		const user = await User.findById({ _id: id_user })
 			.then(function(user) {
 				if(!user){
@@ -78,9 +92,9 @@ export const addWish = async (
 						.status(404)
 						.json({ 
 							success: false,
-							err: 'User not found'
+							message: 'User not found (wish list)'
 						});
-					return;
+					return null;
 				}
 				return user;
 			})
@@ -89,47 +103,60 @@ export const addWish = async (
 					.status(502)
 					.json({ 
 						success: false,
-						err: 'Error getting wishlist in mongodb'
+						message: 'Error getting wishlist in mongodb (wish list)'
 					});
-				return;
+				return null;
 			});
 
-		try{
-			const index = (user.profiles[id_profile].list.wish as Array<number>)
-				.findIndex(element => element === id);
+		if(!user){ return;	}
 
-			if(index === -1){
-				(user.profiles[Number(id_profile)].list.wish as Array<number>).push(id);
-			}
+		try{
+
+			let wish_list = (user.profiles[id_profile].list.wish as Array<any>);
 			
+			for(const item of wish_list){
+				if(id === (item as any).id){
+					res
+						.status(200)
+						.json({
+							success: true,
+							message: 'Already added (wish list)'
+						});
+					return;
+				}
+			}
+
+			(user.profiles[Number(id_profile)].list.wish as Array<any>).push({media_type: media_type, id: id});
+
 			await User.findByIdAndUpdate({ 
 				_id: id_user
 			}, {
 				profiles: user.profiles 
 			});
+
+			res
+				.status(200)
+				.json({
+					success: true,
+					message: 'Successfuly added (wish list)'
+				});
+			return;
 		}catch(err){
 			res
 				.status(502)
 				.json({ 
 					success: false,
-					err: 'Could not add movie/tv'
+					message: 'Could not add movie/tv (wish list)'
 				});
 			return;
 		}
-  
-		res
-			.status(200)
-			.json({
-				success: true,
-				message: 'Successfuly added'
-			});
-		return;
+
 	}else{
 		res
 			.status(400)
 			.json({
 				success: false,
-				err: 'Missing data'
+				message: 'Missing data (wish list)'
 			});
 		return;
 	}
@@ -150,9 +177,9 @@ export const delWish = async (
 						.status(404)
 						.json({ 
 							success: false,
-							err: 'User not found'
+							message: 'User not found (wish list)'
 						});
-					return;
+					return null;
 				}
 				return user;
 			})
@@ -161,46 +188,49 @@ export const delWish = async (
 					.status(502)
 					.json({ 
 						success: false,
-						err: 'Error getting wishlist in mongodb'
+						message: 'Error getting wishlist in mongodb (wish list)'
 					});
-				return;
+				return null;
 			});
+
+		if(!user){ return;	}
 
 		try{
-			const index = (user.profiles[id_profile].list.wish as Array<number>)
-				.findIndex(element => element === id);
+			const index = (user.profiles[id_profile].list.wish as Array<any>)
+				.findIndex(item => item.id === id);
 
 			if(index >= 0){
-				(user.profiles[id_profile].list.wish as Array<number>).splice(index, 1);
+				(user.profiles[id_profile].list.wish as Array<any>).splice(index, 1);
+
+				await User.findByIdAndUpdate({ 
+					_id: id_user
+				}, {
+					profiles: user.profiles 
+				});
 			}
 
-			await User.findByIdAndUpdate({ 
-				_id: id_user
-			}, {
-				profiles: user.profiles 
-			});
+			res
+				.status(200)
+				.json({
+					success: true,
+					message: 'Successfuly deleted (wish list)'
+				});
 		}catch(err){
 			res
 				.status(502)
 				.json({ 
 					success: false,
-					err: 'Could not remove movie/tv'
+					message: 'Could not remove movie/tv (wish list)'
 				});
 			return;
 		}
   
-		res
-			.status(200)
-			.json({
-				success: true,
-				message: 'Successfuly deleted'
-			});
 	}else{
 		res
 			.status(400)
 			.json({
 				success: false,
-				err: 'Missing data'
+				message: 'Missing data (wish list)'
 			});
 	}
 };

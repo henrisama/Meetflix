@@ -9,7 +9,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		await getWatched(req,res);
 		break;
 	case 'POST':
-		await addWatched(req.body.id, req, res);
+		await addWatched(req, res);
 		break;
 	case 'DELETE':
 		await delWatched(req.body.id, req, res);

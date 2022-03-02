@@ -52,6 +52,8 @@ const Wish: NextPage<Props> = ({data}) => {
 												release_date={item.release_date}
 												title={(item.name)? item.name : item.title}
 												vote_average={item.vote_average}
+												watched={false}
+												wish={true}
 											/>
 										</Col>
 									);
@@ -71,7 +73,7 @@ Wish.getInitialProps = async (ctx: NextPageContext) => {
 		return { data: [] };
 	}
 
-	const url = 'http://localhost:3000/api/user/profile/Wish';
+	const url = 'http://localhost:3000/api/user/profile/wish';
 
 	const response = await fetch(
 		url,

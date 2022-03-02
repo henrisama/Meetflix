@@ -1,12 +1,11 @@
+import { useState } from 'react';
 import { Container } from '../components/container';
 import { Card, CardDescribe, CardOverview, CardTitle } from '@/src/components/card/banner';
 import styled from 'styled-components';
 import Stars from './stars';
 
 import { IoAddOutline } from 'react-icons/io5';
-import { BsCheck2 } from 'react-icons/bs';
-
-
+import { BsCheck2, BsCheck2All } from 'react-icons/bs';
 import { IoIosGlasses } from 'react-icons/io';
 
 interface BannerInterface {
@@ -19,7 +18,9 @@ interface BannerInterface {
 	release_date: string,
 	title: string,
 	vote_average: number,
-	media_type: string
+	media_type: string,
+	watched: boolean,
+	wish: boolean
 }
 
 const CustomDiv = styled.div`
@@ -61,9 +62,12 @@ const CustomDivIcon = styled.div`
 `;
 
 const Banner: React.FC<BannerInterface> = (props) => {
-	const addToWishList = async (id:number) => {
-		if(!id){
-			alert('Not id provider on adding to wish list');
+	const [ isWish, setIsWish ] = useState(props.wish);
+	const [ isWatched, setIsWatched ] = useState(props.watched);
+
+	const addToWishList = async (id:number, media_type: string) => {
+		if(!id && !media_type){
+			alert('Not id or media_type provider on adding to wish list');
 			return;
 		}
 
@@ -72,7 +76,8 @@ const Banner: React.FC<BannerInterface> = (props) => {
 			{
 				method: 'POST',
 				body: JSON.stringify({
-					id: id
+					id: id,
+					media_type: media_type
 				}),
 				headers: {
 					'Content-Type': 'application/json'
@@ -88,12 +93,13 @@ const Banner: React.FC<BannerInterface> = (props) => {
 			alert('error getting response');
 		}
 
+		setIsWish(!isWish);
 		return;
 	};
 
-	const addToWatchedList = async (id:number) => {
-		if(!id){
-			alert('Not id provider on adding to watched list');
+	const addToWatchedList = async (id:number, media_type: string) => {
+		if(!id && !media_type){
+			alert('Not id or media_type provider on adding to watched list');
 			return;
 		}
 
@@ -102,7 +108,8 @@ const Banner: React.FC<BannerInterface> = (props) => {
 			{
 				method: 'POST',
 				body: JSON.stringify({
-					id: id
+					id: id,
+					media_type: media_type
 				}),
 				headers: {
 					'Content-Type': 'application/json'
@@ -117,6 +124,75 @@ const Banner: React.FC<BannerInterface> = (props) => {
 		}else{
 			alert('error getting response');
 		}
+
+		setIsWatched(!isWatched);
+		return;
+	};
+
+	const removeOfWishList = async (id:number, media_type: string) => {
+		if(!id && !media_type){
+			alert('Not id or media_type provider on removing of wish list');
+			return;
+		}
+
+		const response: any = await fetch(
+			'http://localhost:3000/api/user/profile/wish',
+			{
+				method: 'DELETE',
+				body: JSON.stringify({
+					id: id,
+					media_type: media_type
+				}),
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			}
+		).then((value) => {
+			return value.json();
+		});
+
+		if(response){
+			alert(response.message);
+		}else{
+			alert('error getting response');
+		}
+
+		setIsWish(!isWish);
+		document.location.reload();
+
+		return;
+	};
+
+	const removeOfWatchedList = async (id:number, media_type: string) => {
+		if(!id && !media_type){
+			alert('Not id or media_type provider on removing of wish list');
+			return;
+		}
+
+		const response: any = await fetch(
+			'http://localhost:3000/api/user/profile/watched',
+			{
+				method: 'DELETE',
+				body: JSON.stringify({
+					id: id,
+					media_type: media_type
+				}),
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			}
+		).then((value) => {
+			return value.json();
+		});
+
+		if(response){
+			alert(response.message);
+		}else{
+			alert('error getting response');
+		}
+
+		setIsWatched(!isWatched);
+		document.location.reload();
 
 		return;
 	};
@@ -169,18 +245,37 @@ const Banner: React.FC<BannerInterface> = (props) => {
 
 							{/* if id is in getIdOfWishList show remove button with their method, else show Add button with their method */}
 							<CustomDivIcon>
-								<IoAddOutline
-									size={30} 
-									title='Add to wish list' 
-									onClick={() => {addToWishList(props.id);}}
-								/>
+								{
+									isWish
+										?<BsCheck2
+											size={30} 
+											color="lightgreen"
+											title='remove of wish list' 
+											onClick={() => {removeOfWishList(props.id, props.media_type);}}
+										/>
+										:<IoAddOutline
+											size={30} 
+											title='Add to wish list' 
+											onClick={() => {addToWishList(props.id, props.media_type);}}
+										/>
+								}
 							</CustomDivIcon>
 							<CustomDivIcon>
-								<IoIosGlasses 
-									size={30} 
-									title='Add to watched list'
-									onClick={() => {addToWatchedList(props.id);}}
-								/>
+								{
+									isWatched
+										?<BsCheck2All 
+											size={30} 
+											color="lightblue"
+											title='remove of watched list'
+											onClick={() => {removeOfWatchedList(props.id, props.media_type);}}
+										/>
+										: <IoIosGlasses 
+											size={30} 
+											title='Add to watched list'
+											onClick={() => {addToWatchedList(props.id, props.media_type);}}
+										/>
+								}
+								
 							</CustomDivIcon>
 						</Container>
 					</Container>

@@ -52,6 +52,8 @@ const Watched: NextPage<Props> = ({data}) => {
 												release_date={item.release_date}
 												title={(item.name)? item.name : item.title}
 												vote_average={item.vote_average}
+												watched={true}
+												wish={false}
 											/>
 										</Col>
 									);

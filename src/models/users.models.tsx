@@ -13,8 +13,8 @@ interface UserInterface {
   profiles?: [{
 		name?: string
 		list?: {
-			wish?: Array<number>,
-			watched?:  Array<Number>
+			wish?: Array<object>,
+			watched?:  Array<object>
 		}
   }]
 }
@@ -33,8 +33,14 @@ const User = new mongoose.Schema<
 		profiles: [{
 			name: {type: String, required: false},
 			list: {
-				wish: {type: [Number]},
-				watched: {type: [Number]}
+				wish:[{
+					media_type: {type: String},
+					id: {type: Number}
+				}],
+				watched:[{
+					media_type: {type: String},
+					id: {type: Number}
+				}],
 			}
 		}]
 	});

@@ -92,12 +92,11 @@ const Header: React.FC = () => {
 		}
 	};
 
-	/* const headerSearchBar = document.getElementById('header-search-bar') as HTMLInputElement;
-		headerSearchBar.onkeydown = (value: any) => {
-			if(value.keyCode === 13){
-				//window.location.pathname = '/browser/search?query='+value.target.value.toString();
-			}
-		}; */
+	const searchHandler = (event: any) => {
+		if(event.keyCode === 13){
+			window.location.href = '/browser/1&search='+event.target.value;
+		}
+	};
 
 	return (
 		<Container backgroundColor='#e63535' height='75px'>
@@ -109,23 +108,19 @@ const Header: React.FC = () => {
 					width='auto'
 					alignItems='center'
 				>
-					<HeaderLink href='browser'>
+					<HeaderLink href='/browser/1'>
 						<HeaderTitle>
 								Meetflix
 						</HeaderTitle>
 					</HeaderLink>
-					
-					<Link href='/browser/wish' passHref>
-						<HeaderLink>
+				
+					<HeaderLink href='/browser/wish'>
 								Wish
-						</HeaderLink>
-					</Link>
-
-					<Link href='/browser/watch' passHref>
-						<HeaderLink>
+					</HeaderLink>
+		
+					<HeaderLink href='/browser/watched'>
 								Watch
-						</HeaderLink>
-					</Link>
+					</HeaderLink>
 
 					<Link href='/profile' passHref>
 						<HeaderLink>
@@ -143,14 +138,26 @@ const Header: React.FC = () => {
 					alignItems='center'
 				>
 					<HeaderSearch>
-						<FcSearch  size={25} cursor='pointer' style={{transform: 'translateX(30px)'}}/>
-						<input type="text" name="" id="header-search-bar" />
+						<FcSearch  
+							size={25} 
+							cursor='pointer' 
+							style={{transform: 'translateX(30px)'}}
+						/>
+						<input 
+							type="text" 
+							name="" 
+							id="header-search-bar" 
+							onKeyUpCapture={searchHandler}
+						/>
 					</HeaderSearch>
 
 					<Container
 						padding='0px 10px 0px 30px'
 					>
-						<FiLogOut size={40} cursor='pointer' onClick={logoutHandler}/>
+						<FiLogOut 
+							size={40} 
+							cursor='pointer' 
+							onClick={logoutHandler}/>
 					</Container>
 						
 				</Container>

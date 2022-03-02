@@ -30,6 +30,7 @@ const Title = styled.h1`
   padding: 0px 0px 30px 30px;
   font-size: 100pt;
   color: rgba(255,0,0, 0.7);
+	text-shadow: 1px 1px white;
 `;
 
 const Home: NextPage = () => {

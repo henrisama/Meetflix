@@ -9,7 +9,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		await getWish(req,res);
 		break;
 	case 'POST':
-		await addWish(req.body.id, req, res);
+		await addWish(req, res);
 		break;
 	case 'DELETE':
 		await delWish(req.body.id, req, res);

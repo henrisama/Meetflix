@@ -13,9 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				.status(402)
 				.json({
 					success: false, 
-					err: {
-						message: 'Invalid page: Pages start at 1 and max at 1000. They are expected to be an integer.'
-					}
+					message: 'Invalid page: Pages start at 1 and max at 1000. They are expected to be an integer.'
 				});
 			return;
 		}
