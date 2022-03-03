@@ -4,8 +4,7 @@ import { Container } from '@/src/components/container';
 import { Row } from '@/src/components/row';
 import Banner from '@/src/paterns/banner';
 import Header from '@/src/paterns/header';
-import { GetStaticPaths, GetStaticProps, NextPage, NextPageContext } from 'next';
-import Link from 'next/link';
+import { NextPage, NextPageContext } from 'next';
 import styled from 'styled-components';
 
 
@@ -30,7 +29,17 @@ interface Props{
     results?: Array<ResultInterface>,
     total_pages: number,
     total_reuslts: number
-  };
+  },
+	ids_data: {
+		wish: {
+			movie: Array<Number>,
+			tv: Array<Number>
+		},
+		watched: {
+			movie: Array<Number>,
+			tv: Array<Number>
+		}
+	}
 }
 
 const NextandPrevious = styled.div`
@@ -52,7 +61,10 @@ const NextandPrevious = styled.div`
 	}
 `;
 
-const Browser: NextPage<Props> = ({data}) => {
+const Browser: NextPage<Props> = ({data, ids_data}) => {
+	var isWatched = false;
+	var isWish = false;
+
 	const NextPreviousHandler = (event: number) => {
 		// 0 previous
 		// 1 next
@@ -84,6 +96,14 @@ const Browser: NextPage<Props> = ({data}) => {
 						<Row>
 							{
 								data && data.results? data.results.map(function (item, i) {
+									if(item.media_type === 'movie'){
+										isWatched = ids_data.watched.movie.indexOf(item.id) === -1? false : true ;
+										isWish = ids_data.wish.movie.indexOf(item.id) === -1? false : true ;
+									}else if(item.media_type === 'tv'){
+										isWatched = ids_data.watched.tv.indexOf(item.id) === -1? false : true ;
+										isWish = ids_data.wish.tv.indexOf(item.id) === -1? false : true ;
+									}
+
 									return(
 										<Col key={i}>
 											<Banner 
@@ -97,8 +117,8 @@ const Browser: NextPage<Props> = ({data}) => {
 												release_date={item.release_date}
 												title={(item.name)? item.name : item.title}
 												vote_average={item.vote_average}
-												watched={false}
-												wish={false}
+												watched={isWatched}
+												wish={isWish}
 											/>
 										</Col>
 									);
@@ -130,8 +150,9 @@ const Browser: NextPage<Props> = ({data}) => {
 
 Browser.getInitialProps = async (ctx: NextPageContext) => {
 	if(!ctx.req){
-		return { data: [] };
+		return { data: [], ids_data: {} };
 	}
+
 
 	const { query } = ctx;
 	const url = query
@@ -151,13 +172,32 @@ Browser.getInitialProps = async (ctx: NextPageContext) => {
 	).then((value: Response) => {
 		return value.json();
 	});
-  
+
 	if(!response.success){
-		return {data: []};
+		return {data: [], ids_data: {}};
 	}
+
+	const ids_response = await fetch(
+		'http://localhost:3000/api/user/profile/list',
+		{
+			method: 'GET',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Cookie': (ctx.req.headers.cookie as any)
+			},
+		}
+	).then((value: Response) => {
+		return value.json();
+	});
+
+	const ids_data = ids_response 
+		&& ids_response.success
+		? ids_response.data : {};
   
 	return {
-		data: response.data
+		data: response.data,
+		ids_data: ids_data
 	};
 };
 

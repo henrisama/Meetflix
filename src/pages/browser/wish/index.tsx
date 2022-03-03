@@ -22,10 +22,21 @@ interface ResultInterface{
 }
 
 interface Props{
-  data: Array<ResultInterface>
+  data: Array<ResultInterface>,
+	ids_data: {
+		wish: {
+			movie: Array<Number>,
+			tv: Array<Number>
+		},
+		watched: {
+			movie: Array<Number>,
+			tv: Array<Number>
+		}
+	}
 }
 
-const Wish: NextPage<Props> = ({data}) => {
+const Wish: NextPage<Props> = ({data, ids_data}) => {
+	var isWatched = false;
 	return (
 		<div>
 			<Header />
@@ -39,6 +50,11 @@ const Wish: NextPage<Props> = ({data}) => {
 						<Row>
 							{
 								data? data.map(function (item, i) {
+									if(item.media_type === 'movie'){
+										isWatched = ids_data.watched.movie.indexOf(item.id) === -1? false : true ;
+									}else if(item.media_type === 'tv'){
+										isWatched = ids_data.watched.tv.indexOf(item.id) === -1? false : true ;
+									}
 									return(
 										<Col key={i}>
 											<Banner
@@ -52,7 +68,7 @@ const Wish: NextPage<Props> = ({data}) => {
 												release_date={item.release_date}
 												title={(item.name)? item.name : item.title}
 												vote_average={item.vote_average}
-												watched={false}
+												watched={isWatched}
 												wish={true}
 											/>
 										</Col>
@@ -70,7 +86,7 @@ const Wish: NextPage<Props> = ({data}) => {
 
 Wish.getInitialProps = async (ctx: NextPageContext) => {
 	if(!ctx.req){
-		return { data: [] };
+		return { data: [], ids_data: {} };
 	}
 
 	const url = 'http://localhost:3000/api/user/profile/wish';
@@ -90,11 +106,30 @@ Wish.getInitialProps = async (ctx: NextPageContext) => {
 	});
   
 	if(!response.success){
-		return {data: []};
+		return {data: [], ids_data: {}};
 	}
+
+	const ids_response = await fetch(
+		'http://localhost:3000/api/user/profile/list',
+		{
+			method: 'GET',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Cookie': (ctx.req.headers.cookie as any)
+			},
+		}
+	).then((value: Response) => {
+		return value.json();
+	});
+
+	const ids_data = ids_response 
+		&& ids_response.success
+		? ids_response.data : {};
   
 	return {
-		data: response.data
+		data: response.data,
+		ids_data: ids_data
 	};
 };
 

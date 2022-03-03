@@ -88,7 +88,7 @@ const Banner: React.FC<BannerInterface> = (props) => {
 		});
 
 		if(response){
-			alert(response.message);
+			//alert(response.message);
 		}else{
 			alert('error getting response');
 		}
@@ -120,7 +120,7 @@ const Banner: React.FC<BannerInterface> = (props) => {
 		});
 
 		if(response){
-			alert(response.message);
+			//alert(response.message);
 		}else{
 			alert('error getting response');
 		}
@@ -152,7 +152,7 @@ const Banner: React.FC<BannerInterface> = (props) => {
 		});
 
 		if(response){
-			alert(response.message);
+			//alert(response.message);
 		}else{
 			alert('error getting response');
 		}
@@ -186,7 +186,7 @@ const Banner: React.FC<BannerInterface> = (props) => {
 		});
 
 		if(response){
-			alert(response.message);
+			//alert(response.message);
 		}else{
 			alert('error getting response');
 		}
@@ -207,35 +207,40 @@ const Banner: React.FC<BannerInterface> = (props) => {
 					<Container
 						height='auto'
 					>
-						{/* Title */}
 						<Container
-							textAlign='center'
+							onClick={() => {}}
+							style={{cursor: 'pointer'}}
 						>
-							<CardTitle>
-								{props.title}
-							</CardTitle>
-						</Container>
+							{/* Title */}
+							<Container
+								textAlign='center'
+							>
+								<CardTitle>
+									{props.title}
+								</CardTitle>
+							</Container>
 
-						{/* Describe */}
-						<Container>
-							<CardDescribe>
-								{props.release_date? `${props.release_date.split('-')[0]} | `: ''} 
-								{props.vote_average? `${props.vote_average} | `: ''} 
-								{props.media_type? `${props.media_type.toUpperCase()} | `: ''} 
-								{props.original_language? `${props.original_language.toUpperCase()}`: ''} 
-							</CardDescribe>
-						</Container>
+							{/* Describe */}
+							<Container>
+								<CardDescribe>
+									{props.release_date? `${props.release_date.split('-')[0]} | `: ''} 
+									{props.vote_average? `${props.vote_average} | `: ''} 
+									{props.media_type? `${props.media_type.toUpperCase()} | `: ''} 
+									{props.original_language? `${props.original_language.toUpperCase()}`: ''} 
+								</CardDescribe>
+							</Container>
 
-						{/* Overview */}
-						<Container>
-							<CardOverview>
-								{props.overview}
-							</CardOverview>
-						</Container>
+							{/* Overview */}
+							<Container>
+								<CardOverview>
+									{props.overview}
+								</CardOverview>
+							</Container>
 
-						{/* Star Rating */}
-						<Container>
-							<Stars rating={props.vote_average? props.vote_average : 0}/>
+							{/* Star Rating */}
+							<Container>
+								<Stars rating={props.vote_average? props.vote_average : 0}/>
+							</Container>
 						</Container>
 
 						{/* Add wish and watched list */}

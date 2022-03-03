@@ -155,7 +155,6 @@ const SignUp: NextPage = () => {
 										<Input 
 											type="date" 
 											name="born" 
-											id="" 
 											defaultValue="2000-01-01" 
 											required/>
 										<br />
@@ -164,7 +163,6 @@ const SignUp: NextPage = () => {
 										<Input 
 											type="email" 
 											name="email" 
-											id="" 
 											placeholder='example@example.com' 
 											required/>
 										<br />
@@ -173,7 +171,6 @@ const SignUp: NextPage = () => {
 										<Input 
 											type="password" 
 											name="password" 
-											id="" 
 											minLength={8}
 											maxLength={30}
 											required/>
@@ -183,7 +180,6 @@ const SignUp: NextPage = () => {
 										<Input 
 											type="password" 
 											name="confirmPassword" 
-											id="" 
 											minLength={8}
 											required/>
 										<br />

@@ -1,10 +1,15 @@
-import LoginController from '@/src/controller/login';
+import isAuthaticated from '@/src/middlewares/isAuthanticated';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	switch (req.method) {
-	case 'POST':
-		await LoginController(req,res);
+	case 'GET':
+		res
+			.status(200)
+			.json({
+				success: true,
+				message: 'authenticated user'
+			});
 		break;
 		
 	default:
@@ -12,4 +17,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 };
 
-export default handler;
+export default isAuthaticated(handler);

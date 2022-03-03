@@ -119,7 +119,7 @@ const Header: React.FC = () => {
 					</HeaderLink>
 		
 					<HeaderLink href='/browser/watched'>
-								Watch
+								Watched
 					</HeaderLink>
 
 					<Link href='/profile' passHref>

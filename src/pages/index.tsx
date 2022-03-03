@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import type { NextPage, NextPageContext } from 'next';
 import { Container } from '../components/container';
 import styled from 'styled-components';
 import Link from 'next/link';
@@ -29,11 +29,11 @@ const CustomLinear = styled.div`
 const Title = styled.h1`
   padding: 0px 0px 30px 30px;
   font-size: 100pt;
-  color: rgba(255,0,0, 0.7);
+  color: rgba(255,0,0);
 	text-shadow: 1px 1px white;
 `;
 
-const Home: NextPage = () => {
+const Home: NextPage= () => {
 	return (
 		<CustomDiv>
 			<CustomLinear>
@@ -67,6 +67,32 @@ const Home: NextPage = () => {
 			</CustomLinear>
 		</CustomDiv>
 	);
+};
+
+Home.getInitialProps = async (ctx: NextPageContext) => {
+	if(!ctx.req){
+		return { isAuth: false };
+	}
+
+	const response = await fetch(
+		'http://localhost:3000/api/user/isAuth',
+		{
+			method: 'GET',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json',
+				'Cookie': (ctx.req.headers.cookie as any)
+			},
+		}
+	).then((value: Response) => {
+		return value.json();
+	});
+
+	if(response.success){
+		ctx.res?.writeHead(307, { Location: '/browser/1' });
+		ctx.res?.end();
+		return;
+	}
 };
 
 export default Home;
