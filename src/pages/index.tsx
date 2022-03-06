@@ -87,11 +87,14 @@ Home.getInitialProps = async (ctx: NextPageContext) => {
 	).then((value: Response) => {
 		return value.json();
 	});
+	console.log(response);
 
 	if(response.success){
 		ctx.res?.writeHead(307, { Location: '/browser/1' });
 		ctx.res?.end();
 		return;
+	}else{
+		return {};
 	}
 };
 
