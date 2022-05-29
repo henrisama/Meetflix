@@ -7,6 +7,7 @@ import Stars from './stars';
 import { IoAddOutline } from 'react-icons/io5';
 import { BsCheck2, BsCheck2All } from 'react-icons/bs';
 import { IoIosGlasses } from 'react-icons/io';
+import { IoIosShareAlt } from 'react-icons/io';
 
 interface BannerInterface {
 	adult: string,
@@ -249,39 +250,64 @@ const Banner: React.FC<BannerInterface> = (props) => {
 						>
 
 							{/* if id is in getIdOfWishList show remove button with their method, else show Add button with their method */}
-							<CustomDivIcon>
-								{
-									isWish
-										?<BsCheck2
-											size={30} 
-											color="lightgreen"
-											title='remove of wish list' 
-											onClick={() => {removeOfWishList(props.id, props.media_type);}}
-										/>
-										:<IoAddOutline
-											size={30} 
-											title='Add to wish list' 
-											onClick={() => {addToWishList(props.id, props.media_type);}}
-										/>
-								}
-							</CustomDivIcon>
-							<CustomDivIcon>
-								{
-									isWatched
-										?<BsCheck2All 
-											size={30} 
-											color="lightblue"
-											title='remove of watched list'
-											onClick={() => {removeOfWatchedList(props.id, props.media_type);}}
-										/>
-										: <IoIosGlasses 
-											size={30} 
-											title='Add to watched list'
-											onClick={() => {addToWatchedList(props.id, props.media_type);}}
-										/>
-								}
-								
-							</CustomDivIcon>
+							<Container
+								display='flex'
+							>
+								<CustomDivIcon>
+									{
+										isWish
+											?<BsCheck2
+												size={30} 
+												color="lightgreen"
+												title='remove of wish list' 
+												onClick={() => {removeOfWishList(props.id, props.media_type);}}
+											/>
+											:<IoAddOutline
+												size={30} 
+												title='Add to wish list' 
+												onClick={() => {addToWishList(props.id, props.media_type);}}
+											/>
+									}
+								</CustomDivIcon>
+								<CustomDivIcon>
+									{
+										isWatched
+											?<BsCheck2All 
+												size={30} 
+												color="lightblue"
+												title='remove of watched list'
+												onClick={() => {removeOfWatchedList(props.id, props.media_type);}}
+											/>
+											: <IoIosGlasses 
+												size={30} 
+												title='Add to watched list'
+												onClick={() => {addToWatchedList(props.id, props.media_type);}}
+											/>
+									}
+									
+								</CustomDivIcon>
+							</Container>
+
+							<Container padding='0px 10px 0px 0px' textAlign='end'>
+								<CustomDivIcon>
+									{
+										isWatched
+											?<IoIosShareAlt 
+												size={30}
+												title='Share on Twitter'
+												onClick={() => { 
+													window.open(
+														'https://twitter.com/intent/tweet?'
+														+	'text=Look%20what%20I%20watched%20%F0%9F%98%84'
+														+ '%0A%23'+ props.title.replace(' ', '')
+														+ '%20%23Meetflix'
+													);
+												}}
+											/>
+											: null
+									}
+								</CustomDivIcon>
+							</Container>
 						</Container>
 					</Container>
 				</CustomDiv>

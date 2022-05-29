@@ -34,15 +34,26 @@ const SignUpController = async (req: NextApiRequest, res: NextApiResponse) => {
 		}]
 	});
 
+	
+
 	try {
 		await newUser
 			.save();
 	} catch (error) {
+		if((error as any).code == 11000){
+			return res
+				.status(500)
+				.json({
+					success: false,
+					err: 'Account already exists'
+				});
+		}
+
 		return res
 			.status(500)
 			.json({
 				success: false,
-				err: error
+				err: 'Error: '+ (error as any).code
 			});
 	}
 

@@ -92,6 +92,9 @@ const Browser: NextPage<Props> = ({data, ids_data}) => {
 				<Container
 					padding='40px 0px'
 				>
+					<Container textAlign='center' padding='10px 20px 30px 20px'>
+						<h1>Trending now</h1>
+					</Container>
 					<Center>
 						<Row>
 							{
