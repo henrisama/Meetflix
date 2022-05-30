@@ -74,7 +74,7 @@ const Header: React.FC = () => {
 
 	const logoutHandler = async() => {
 		const response = await fetch(
-			'/api/user/logout',
+			process.env.HOST+'/api/user/logout',
 			{
 				method: 'GET',
 				headers: {
