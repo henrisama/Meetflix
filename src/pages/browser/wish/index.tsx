@@ -89,7 +89,7 @@ Wish.getInitialProps = async (ctx: NextPageContext) => {
 		return { data: [], ids_data: {} };
 	}
 
-	const url = 'http://localhost:3000/api/user/profile/wish';
+	const url = process.env.HOST+'/api/user/profile/wish';
 
 	const response = await fetch(
 		url,
@@ -110,7 +110,7 @@ Wish.getInitialProps = async (ctx: NextPageContext) => {
 	}
 
 	const ids_response = await fetch(
-		'http://localhost:3000/api/user/profile/list',
+		process.env.HOST+'/api/user/profile/list',
 		{
 			method: 'GET',
 			credentials: 'same-origin',

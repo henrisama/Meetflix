@@ -159,8 +159,8 @@ Browser.getInitialProps = async (ctx: NextPageContext) => {
 
 	const { query } = ctx;
 	const url = query
-		? 'http://localhost:3000/api/user/browser?page='+query.page
-		: 'http://localhost:3000/api/user/browser';
+		? process.env.HOST+'/api/user/browser?page='+query.page
+		: process.env.HOST+'/api/user/browser';
 
 	const response = await fetch(
 		url,
@@ -181,7 +181,7 @@ Browser.getInitialProps = async (ctx: NextPageContext) => {
 	}
 
 	const ids_response = await fetch(
-		'http://localhost:3000/api/user/profile/list',
+		process.env.HOST+'/api/user/profile/list',
 		{
 			method: 'GET',
 			credentials: 'same-origin',

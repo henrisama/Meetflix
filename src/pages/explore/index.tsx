@@ -100,7 +100,7 @@ Explore.getInitialProps = async (ctx: NextPageContext) => {
 		return { data: [], ids_data: {} };
 	}
 
-	const url =  'http://localhost:3000/api/user/explore';
+	const url =  process.env.HOST+'/api/user/explore';
 
 	const response = await fetch(
 		url,
@@ -121,7 +121,7 @@ Explore.getInitialProps = async (ctx: NextPageContext) => {
 	}
 
 	const ids_response = await fetch(
-		'http://localhost:3000/api/user/profile/list',
+		process.env.HOST+'/api/user/profile/list',
 		{
 			method: 'GET',
 			credentials: 'same-origin',

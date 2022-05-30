@@ -75,7 +75,7 @@ Home.getInitialProps = async (ctx: NextPageContext) => {
 	}
 
 	const response = await fetch(
-		'http://localhost:3000/api/user/isAuth',
+		process.env.HOST+'/api/user/isAuth',
 		{
 			method: 'GET',
 			credentials: 'same-origin',
