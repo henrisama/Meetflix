@@ -9,7 +9,7 @@ const LogoutController = async (req: NextApiRequest, res: NextApiResponse) => {
 				'',
 				{
 					httpOnly: true,
-					secure: process.env.NODE_ENV !== 'development',
+					//secure: process.env.NODE_ENV !== 'development',
 					maxAge: -1,
 					sameSite: 'strict',
 					path: '/'
@@ -20,7 +20,7 @@ const LogoutController = async (req: NextApiRequest, res: NextApiResponse) => {
 				'',
 				{
 					httpOnly: true,
-					secure: process.env.NODE_ENV !== 'development',
+					//secure: process.env.NODE_ENV !== 'development',
 					maxAge: -1,
 					sameSite: 'strict',
 					path: '/'
@@ -31,7 +31,7 @@ const LogoutController = async (req: NextApiRequest, res: NextApiResponse) => {
 				'',
 				{
 					httpOnly: true,
-					secure: process.env.NODE_ENV !== 'development',
+					//secure: process.env.NODE_ENV !== 'development',
 					maxAge: -1,
 					sameSite: 'strict',
 					path: '/'
