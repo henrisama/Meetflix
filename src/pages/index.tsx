@@ -75,7 +75,7 @@ Home.getInitialProps = async (ctx: NextPageContext) => {
 	}
 
 	const response = await fetch(
-		process.env.HOST+'/api/user/isAuth',
+		'https://meetflix.vercel.app/api/user/isAuth',
 		{
 			method: 'GET',
 			credentials: 'same-origin',
