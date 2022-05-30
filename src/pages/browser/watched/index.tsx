@@ -90,7 +90,7 @@ Watched.getInitialProps = async (ctx: NextPageContext) => {
 		return { data: [] , ids_data: {}};
 	}
 
-	const url = process.env.HOST+'/api/user/profile/watched';
+	const url = 'https://meetflix.vercel.app/api/user/profile/watched';
 
 	const response = await fetch(
 		url,

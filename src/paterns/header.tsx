@@ -86,7 +86,8 @@ const Header: React.FC = () => {
 		});
 
 		if(response.success){
-			window.location.pathname = '/login';
+			//window.location.pathname = '/login';
+			alert('logging out');
 		}else{
 			alert('Error when logging out');
 		}

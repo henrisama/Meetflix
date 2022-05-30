@@ -89,7 +89,7 @@ Wish.getInitialProps = async (ctx: NextPageContext) => {
 		return { data: [], ids_data: {} };
 	}
 
-	const url = process.env.HOST+'/api/user/profile/wish';
+	const url = 'https://meetflix.vercel.app/api/user/profile/wish';
 
 	const response = await fetch(
 		url,
@@ -110,7 +110,7 @@ Wish.getInitialProps = async (ctx: NextPageContext) => {
 	}
 
 	const ids_response = await fetch(
-		process.env.HOST+'/api/user/profile/list',
+		'https://meetflix.vercel.app/api/user/profile/list',
 		{
 			method: 'GET',
 			credentials: 'same-origin',
