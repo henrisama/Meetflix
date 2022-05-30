@@ -74,7 +74,7 @@ const Header: React.FC = () => {
 
 	const logoutHandler = async() => {
 		const response = await fetch(
-			'https://meetflix.vercel.app/api/user/logout',
+			'/api/user/logout',
 			{
 				method: 'GET',
 				headers: {
@@ -86,7 +86,7 @@ const Header: React.FC = () => {
 		});
 
 		if(response.success){
-			window.location.pathname = 'https://meetflix.vercel.app/login';
+			window.location.pathname = '/login';
 		}else{
 			alert('Error when logging out');
 		}
