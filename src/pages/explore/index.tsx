@@ -100,7 +100,7 @@ Explore.getInitialProps = async (ctx: NextPageContext) => {
 		return { data: [], ids_data: {} };
 	}
 
-	const url =  process.env.HOST+'/api/user/explore';
+	const url =  'https://meetflix.vercel.app/api/user/explore';
 
 	const response = await fetch(
 		url,
