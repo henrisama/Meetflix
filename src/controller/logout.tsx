@@ -9,11 +9,11 @@ const LogoutController = async (req: NextApiRequest, res: NextApiResponse) => {
 				'',
 				{
 					httpOnly: true,
-					secure: process.env.NODE_ENV !== 'development',
-					maxAge: 60*60*1000,
-					sameSite: 'strict',
-					domain: process.env.NODE_ENV === 'development'? 'http://localhost:3000' : 'https://meetflix.vercel.app/',
-					path: '/'
+					//secure: process.env.NODE_ENV !== 'development',
+					maxAge: -1,
+					//sameSite: 'strict',
+					//domain: process.env.NODE_ENV === 'development'? 'http://localhost:3000' : 'https://meetflix.vercel.app',
+					//path: '/'
 				}
 			),
 			cookie.serialize(
@@ -21,11 +21,11 @@ const LogoutController = async (req: NextApiRequest, res: NextApiResponse) => {
 				'',
 				{
 					httpOnly: true,
-					secure: process.env.NODE_ENV !== 'development',
-					maxAge: 60*60*1000,
-					sameSite: 'strict',
-					domain: process.env.NODE_ENV === 'development'? 'http://localhost:3000' : 'https://meetflix.vercel.app/',
-					path: '/'
+					//secure: process.env.NODE_ENV !== 'development',
+					maxAge: -1,
+					//sameSite: 'strict',
+					//domain: process.env.NODE_ENV === 'development'? 'http://localhost:3000' : 'https://meetflix.vercel.app',
+					//path: '/'
 				}
 			),
 			cookie.serialize(
@@ -33,11 +33,11 @@ const LogoutController = async (req: NextApiRequest, res: NextApiResponse) => {
 				'',
 				{
 					httpOnly: true,
-				  secure: process.env.NODE_ENV !== 'development',
+				  //secure: process.env.NODE_ENV !== 'development',
 					maxAge: -1,
-					sameSite: 'strict',
-					domain: process.env.NODE_ENV === 'development'? 'http://localhost:3000' : 'https://meetflix.vercel.app/',
-					path: '/'
+					//sameSite: 'strict',
+					//domain: process.env.NODE_ENV === 'development'? 'http://localhost:3000' : 'https://meetflix.vercel.app',
+					//path: '/'
 				}
 			)
 		]);
