@@ -110,23 +110,27 @@ const Header: React.FC = () => {
 				>
 					<HeaderLink href='/browser/1'>
 						<HeaderTitle>
-								Meetflix
+							Meetflix
 						</HeaderTitle>
 					</HeaderLink>
 				
 					<HeaderLink href='/browser/wish'>
-								Wish
+							Wish
 					</HeaderLink>
 		
 					<HeaderLink href='/browser/watched'>
-								Watched
+							Watched
 					</HeaderLink>
 
 					<Link href='/profile' passHref>
 						<HeaderLink>
-								Profiles
+							Profiles
 						</HeaderLink>
 					</Link>
+
+					<HeaderLink href='/explore'>
+						Explore
+					</HeaderLink>
 					
 				</Container>
 

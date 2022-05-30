@@ -37,12 +37,12 @@ export const getWatched = async (
 		var watched_list = [];
 
 		try{
-			const wishList: Array<number> = user
+			const watchedList: Array<number> = user
 				.profiles[Number(id_profile)]
 				.list
 				.watched;
 	
-			for(const item of wishList){
+			for(const item of watchedList){
 				const response = await getMovieSerie(item);
 				if(response !== null){
 					watched_list.push(response);
