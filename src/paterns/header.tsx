@@ -86,7 +86,7 @@ const Header: React.FC = () => {
 		});
 
 		if(response.success){
-			window.location.pathname = '/login';
+			window.location.pathname = 'https://meetflix.vercel.app/login';
 		}else{
 			alert('Error when logging out');
 		}
