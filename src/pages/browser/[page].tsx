@@ -159,8 +159,8 @@ Browser.getInitialProps = async (ctx: NextPageContext) => {
 
 	const { query } = ctx;
 	const url = query
-		? 'https://meetflix.vercel.app/api/user/browser?page='+query.page
-		: 'https://meetflix.vercel.app/api/user/browser';
+		? 'http://localhost:3000/api/user/browser?page='+query.page
+		: 'http://localhost:3000/api/user/browser';
 
 	const response = await fetch(
 		url,
@@ -181,7 +181,7 @@ Browser.getInitialProps = async (ctx: NextPageContext) => {
 	}
 
 	const ids_response = await fetch(
-		'https://meetflix.vercel.app/api/user/profile/list',
+		'http://localhost:3000/api/user/profile/list',
 		{
 			method: 'GET',
 			credentials: 'same-origin',

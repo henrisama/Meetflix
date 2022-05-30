@@ -74,7 +74,7 @@ const submit = async (event: React.FormEvent<HTMLFormElement>) => {
 	}
 
 	const response = await fetch(
-		'https://meetflix.vercel.app/api/user/signup',
+		'http://localhost:3000/api/user/signup',
 		{
 			method: 'POST',
 			body: JSON.stringify({

@@ -45,7 +45,7 @@ const Browser: React.FC= () => {
 
 	const loadProfiles = async () => {
 		const response = await fetch(
-			'https://meetflix.vercel.app/api/user/profiles',
+			'http://localhost:3000/api/user/profiles',
 			{
 				method: 'GET',
 				headers: {
@@ -68,7 +68,7 @@ const Browser: React.FC= () => {
 		
 		if(name && name.length < 10){
 			const response = await fetch(
-				'https://meetflix.vercel.app/api/user/profiles',
+				'http://localhost:3000/api/user/profiles',
 				{
 					method: 'POST',
 					body: JSON.stringify({
@@ -101,7 +101,7 @@ const Browser: React.FC= () => {
 			&& key < 5
 		){
 			const response = await fetch(
-				'https://meetflix.vercel.app/api/user/profiles',
+				'http://localhost:3000/api/user/profiles',
 				{
 					method: 'PUT',
 					body: JSON.stringify({
@@ -130,7 +130,7 @@ const Browser: React.FC= () => {
 		if((key != undefined) && key < 5){
 			if(confirm('Are you sure you want to delete the profile?')){
 				const response = await fetch(
-					'https://meetflix.vercel.app/api/user/profiles',
+					'http://localhost:3000/api/user/profiles',
 					{
 						method: 'DELETE',
 						body: JSON.stringify({

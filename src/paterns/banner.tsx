@@ -73,7 +73,7 @@ const Banner: React.FC<BannerInterface> = (props) => {
 		}
 
 		const response: any = await fetch(
-			'https://meetflix.vercel.app/api/user/profile/wish',
+			'http://localhost:3000/api/user/profile/wish',
 			{
 				method: 'POST',
 				body: JSON.stringify({
@@ -105,7 +105,7 @@ const Banner: React.FC<BannerInterface> = (props) => {
 		}
 
 		const response: any = await fetch(
-			'https://meetflix.vercel.app/api/user/profile/watched',
+			'http://localhost:3000/api/user/profile/watched',
 			{
 				method: 'POST',
 				body: JSON.stringify({
@@ -137,7 +137,7 @@ const Banner: React.FC<BannerInterface> = (props) => {
 		}
 
 		const response: any = await fetch(
-			'https://meetflix.vercel.app/api/user/profile/wish',
+			'http://localhost:3000/api/user/profile/wish',
 			{
 				method: 'DELETE',
 				body: JSON.stringify({
@@ -171,7 +171,7 @@ const Banner: React.FC<BannerInterface> = (props) => {
 		}
 
 		const response: any = await fetch(
-			'https://meetflix.vercel.app/api/user/profile/watched',
+			'http://localhost:3000/api/user/profile/watched',
 			{
 				method: 'DELETE',
 				body: JSON.stringify({
