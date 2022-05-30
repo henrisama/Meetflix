@@ -73,7 +73,7 @@ const Banner: React.FC<BannerInterface> = (props) => {
 		}
 
 		const response: any = await fetch(
-			'http://localhost:3000/api/user/profile/wish',
+			process.env.HOST+'/api/user/profile/wish',
 			{
 				method: 'POST',
 				body: JSON.stringify({
@@ -105,7 +105,7 @@ const Banner: React.FC<BannerInterface> = (props) => {
 		}
 
 		const response: any = await fetch(
-			'http://localhost:3000/api/user/profile/watched',
+			process.env.HOST+'/api/user/profile/watched',
 			{
 				method: 'POST',
 				body: JSON.stringify({
@@ -137,7 +137,7 @@ const Banner: React.FC<BannerInterface> = (props) => {
 		}
 
 		const response: any = await fetch(
-			'http://localhost:3000/api/user/profile/wish',
+			process.env.HOST+'/api/user/profile/wish',
 			{
 				method: 'DELETE',
 				body: JSON.stringify({
@@ -171,7 +171,7 @@ const Banner: React.FC<BannerInterface> = (props) => {
 		}
 
 		const response: any = await fetch(
-			'http://localhost:3000/api/user/profile/watched',
+			process.env.HOST+'/api/user/profile/watched',
 			{
 				method: 'DELETE',
 				body: JSON.stringify({
