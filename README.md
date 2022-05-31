@@ -13,7 +13,7 @@
 ```
 git clone https://github.com/henrisama/Meetflix.git
 cd Meetflix
-npm i
+yarn install
 ```
 #### Passo 2
 Criar um arquivo .env.local com as seguintes variaveis
@@ -25,6 +25,7 @@ API_THEMOVIEDB='sua api do the movie database'
 
 #### Passo 3
 ```
+git checkout localhost
 yarn dev
 ```
 
